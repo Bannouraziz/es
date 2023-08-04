@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "952437178786",
+    "project_id": "estichara-5000a",
+    "storage_bucket": "estichara-5000a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:952437178786:android:466aba680b565341c632fb",
+        "android_client_info": {
+          "package_name": "com.aziz.estichara"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "952437178786-cdop61tefrhrshgs2fbj3nkuub9dvd2h.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.aziz.estichara",
+            "certificate_hash": "a2679d9d0d27a10e8ea9cfe95be963b1971d1590"
+          }
+        },
+        {
+          "client_id": "952437178786-nvt1o3lamd1vc88fpd2l3i7bnpav1crv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBHBuZkLWazUOjNZdPWOeVkXHWYxg1NKx4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "952437178786-nvt1o3lamd1vc88fpd2l3i7bnpav1crv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
