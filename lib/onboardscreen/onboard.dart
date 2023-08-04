@@ -130,7 +130,7 @@ class OnBoardingScreen extends StatelessWidget {
               ),
               SizedBox(height: 20),
               Text(
-                'Make a positive impact by voicing your opinions on global matters.',
+                'Make a positive impact by voicing your opinions on global matters..',
                 textAlign: TextAlign.center,
                 style: descriptionStyle,
               ),
