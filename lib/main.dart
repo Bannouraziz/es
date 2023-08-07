@@ -12,11 +12,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'App Name',
       theme: ThemeData(
         primarySwatch: Colors.orange,
       ),
-      home: OnBoardingScreen(), // Set the OnboardingScreen as the home screen
-    );
+      home: OnBoardingScreen(),
+         );
   }
 }

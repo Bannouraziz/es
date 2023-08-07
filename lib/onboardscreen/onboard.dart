@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_onboarding_slider/flutter_onboarding_slider.dart';
 import 'package:estichara/onboardscreen/page1.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:estichara/registerscreens/email.dart';
 
 class OnBoardingScreen extends StatelessWidget {
   const OnBoardingScreen({Key? key}) : super(key: key);
@@ -26,7 +27,7 @@ class OnBoardingScreen extends StatelessWidget {
         Navigator.push(
           context,
           CupertinoPageRoute(
-            builder: (context) => OnboardingPage1(),
+            builder: (context) => MailScreen(),
           ),
         );
       },
@@ -53,7 +54,7 @@ class OnBoardingScreen extends StatelessWidget {
         Navigator.push(
           context,
           CupertinoPageRoute(
-            builder: (context) => OnboardingPage1(),
+            builder: (context) => MailScreen(),
           ),
         );
       },
