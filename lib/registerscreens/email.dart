@@ -99,8 +99,17 @@ class _MailScreenState extends State<MailScreen> {
         child: Stack(
           children: [
             Positioned(
+                    left: 45,
+                    top: 250,
+                    child: SizedBox (
+                      width: 300,height: 250,
+                      child: Image.asset('img/5.png'),
+                      )
+                      ),
+            
+            Positioned(
               left: 28,
-              top: 334,
+              top: 520,
               child: Container(
                 width: 359,
                 height: 80,
@@ -113,7 +122,7 @@ class _MailScreenState extends State<MailScreen> {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 10.0,
-                    vertical: 10,
+                    vertical: 14,
                   ),
                   child: TextField(
                     controller: _phoneNumberController,
@@ -170,7 +179,7 @@ class _MailScreenState extends State<MailScreen> {
             ),
             Positioned(
               left: 125,
-              top: 460,
+              top: 640,
               child: SizedBox(
                 width: 167,
                 height: 50,

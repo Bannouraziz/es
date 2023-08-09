@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:estichara/home.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:pin_code_fields/pin_code_fields.dart';
 
 class CodeScreen extends StatefulWidget {
   final String phoneNumber;
@@ -15,12 +16,9 @@ class CodeScreen extends StatefulWidget {
 }
 
 class _CodeScreenState extends State<CodeScreen> {
-  final TextEditingController _codeController = TextEditingController();
   bool _showErrorMessage = false; // Added variable
 
-  Future<void> _confirmCode() async {
-    final String verificationCode = _codeController.text;
-
+  Future<void> _confirmCode(String verificationCode) async {
     final AuthCredential credential = PhoneAuthProvider.credential(
       verificationId: widget.verificationId,
       smsCode: verificationCode,
@@ -129,7 +127,7 @@ class _CodeScreenState extends State<CodeScreen> {
                       width: 359,
                       height: 85,
                       decoration: ShapeDecoration(
-                        color: Color(0xFFC8C8C8),
+                        color: Color.fromARGB(255, 255, 255, 255),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20),
                         ),
@@ -137,25 +135,43 @@ class _CodeScreenState extends State<CodeScreen> {
                     ),
                   ),
                   Positioned(
-                    left: 59,
-                    top: 330,
+                    left: 45,
+                    top: 250,
+                    child: SizedBox (
+                      width: 300,height: 250,
+                      child: Image.asset('img/4.png'),
+                      )
+                      ),
+                  Positioned(
+                    left: 30,
+                    top: 520,
                     child: SizedBox(
                       width: 348,
                       height: 83,
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
-                            horizontal: 10.0, vertical: 10),
-                        child: TextField(
-                          controller: _codeController,
-                          inputFormatters: [
-                            FilteringTextInputFormatter.digitsOnly
-                          ],
-                          keyboardType: TextInputType.number,
-                          decoration: InputDecoration(
-                            hintText: 'Enter Code',
-                            border: InputBorder.none,
+                            horizontal: 0.0, vertical: 10),
+                        child: PinCodeTextField(
+                          appContext: context,
+                          length: 6,
+                          onChanged: (value) {
+                            if (_showErrorMessage) {
+                              setState(() {
+                                _showErrorMessage = false;
+                              });
+                            }
+                          },
+                          onCompleted: _confirmCode,
+                          pinTheme: PinTheme(
+                            shape: PinCodeFieldShape.box,
+                            borderRadius: BorderRadius.circular(10),
+                            fieldHeight: 60,
+                            fieldWidth: 48,
+                            activeFillColor: Colors.white,
+                            inactiveFillColor: Color(0xFFC8C8C8),
+                            selectedFillColor: Colors.white,
                           ),
-                          style: TextStyle(
+                          textStyle: TextStyle(
                             color: Colors.black,
                             fontSize: 24,
                             fontFamily: 'Inter',
@@ -166,14 +182,13 @@ class _CodeScreenState extends State<CodeScreen> {
                     ),
                   ),
                   Positioned(
-                    left: 120,
-                    top: 600,
+                    left: 100,
+                    top: 620,
                     child: SizedBox(
                       width: 200,
                       height: 60,
                       child: ElevatedButton(
                         onPressed: () async {
-                          await _confirmCode();
                         },
                         style: ElevatedButton.styleFrom(
                           primary: Colors.orange,
@@ -195,35 +210,7 @@ class _CodeScreenState extends State<CodeScreen> {
                   ),
                   Positioned(
                     left: 120,
-                    top: 500,
-                    child: SizedBox(
-                      width: 200,
-                      height: 60,
-                      child: ElevatedButton(
-                        onPressed: () async {
-                          await _confirmCode();
-                        },
-                        style: ElevatedButton.styleFrom(
-                          primary: Colors.orange,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                        child: Text(
-                          'Confirm code',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    left: 30,
-                    top: 430,
+                    top: 700,
                     child: _showErrorMessage
                         ? Text(
                             'Invalid code. Please try again.',
@@ -245,4 +232,3 @@ class _CodeScreenState extends State<CodeScreen> {
     );
   }
 }
-
