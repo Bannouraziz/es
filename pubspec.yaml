@@ -23,6 +23,7 @@ dependencies:
   email_validator: ^2.1.17
   pin_code_fields: ^8.0.1
   intl_phone_number_input: ^0.7.3+1
+  persistent_bottom_nav_bar: ^5.0.2
 
 
   cupertino_icons: ^1.0.2

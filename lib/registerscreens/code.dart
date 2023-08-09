@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
+import 'package:estichara/home.dart';
+import 'package:flutter/cupertino.dart';
 
 class CodeScreen extends StatefulWidget {
   final String phoneNumber;
@@ -15,29 +17,39 @@ class CodeScreen extends StatefulWidget {
 class _CodeScreenState extends State<CodeScreen> {
   final TextEditingController _codeController = TextEditingController();
 
-  Future<void> _confirmCode() async {
-    final String verificationCode = _codeController.text;
+Future<void> _confirmCode() async {
+  final String verificationCode = _codeController.text;
 
-    // Create a PhoneAuthCredential with the verification ID and verification code
-    final AuthCredential credential = PhoneAuthProvider.credential(
-      verificationId: widget.verificationId,
-      smsCode: verificationCode,
+  final AuthCredential credential = PhoneAuthProvider.credential(
+    verificationId: widget.verificationId,
+    smsCode: verificationCode,
+  );
+
+  try {
+    // Sign in with the credential
+    UserCredential userCredential =
+        await FirebaseAuth.instance.signInWithCredential(credential);
+
+    // The user is now signed in
+    // You can proceed with user authentication or any other actions
+    // You can access the user using userCredential.user
+    print('User signed in: ${userCredential.user?.uid}');
+
+    // Close the keyboard explicitly
+    SystemChannels.textInput.invokeMethod('TextInput.hide');
+
+     
+        Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(builder: (context) => MainMenu()),
+      (route) => false,
     );
-
-    try {
-      // Sign in with the credential
-      UserCredential userCredential =
-          await FirebaseAuth.instance.signInWithCredential(credential);
-
-      // The user is now signed in
-      // You can proceed with user authentication or any other actions
-      // You can access the user using userCredential.user
-      print('User signed in: ${userCredential.user?.uid}');
-    } catch (e) {
-      print('Error signing in: $e');
-      // Handle sign-in error (e.g., show an error to the user)
-    }
+    
+  } catch (e) {
+    print('Error signing in: $e');
   }
+}
+
 
   @override
   Widget build(BuildContext context) {
@@ -159,7 +171,9 @@ class _CodeScreenState extends State<CodeScreen> {
                       width: 200,
                       height: 60,
                       child: ElevatedButton(
-                        onPressed: _confirmCode,
+                        onPressed:  () async {
+                          await _confirmCode();
+                          },
                         style: ElevatedButton.styleFrom(
                           primary: Colors.orange,
                           shape: RoundedRectangleBorder(
@@ -185,7 +199,9 @@ class _CodeScreenState extends State<CodeScreen> {
                       width: 200,
                       height: 60,
                       child: ElevatedButton(
-                        onPressed: _confirmCode,
+                       onPressed:  () async {
+                          await _confirmCode();
+                          },
                         style: ElevatedButton.styleFrom(
                           primary: Colors.orange,
                           shape: RoundedRectangleBorder(
