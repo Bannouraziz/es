@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding_slider/flutter_onboarding_slider.dart';
-import 'package:estichara/onboardscreen/page1.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:estichara/registerscreens/email.dart';
 import 'package:estichara/home.dart';
@@ -88,7 +87,7 @@ class OnBoardingScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text(
-                'Welcome to the International Survey App',
+                'Welcome to Estichara',
                 textAlign: TextAlign.center,
                 style: titleStyle,
               ),
@@ -107,7 +106,7 @@ class OnBoardingScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text(
-                'Discover and Participate',
+                'Curated Weekly Polls',
                 textAlign: TextAlign.center,
                 style: titleStyle,
               ),

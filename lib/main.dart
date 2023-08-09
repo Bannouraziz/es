@@ -1,4 +1,3 @@
-import 'package:estichara/onboardscreen/page1.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:estichara/onboardscreen/onboard.dart';

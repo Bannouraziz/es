@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart'; // Import the package
 import 'code.dart';
 
 class MailApp extends StatelessWidget {
@@ -21,51 +22,70 @@ class _MailScreenState extends State<MailScreen> {
   String verificationId = ''; // Variable to store the verification ID
 
   Future<void> _sendCode() async {
-    final String phoneNumber = _phoneNumberController.text;
+    if (await InternetConnectionChecker().hasConnection) {
+      final String phoneNumber = _phoneNumberController.text;
 
-    final PhoneVerificationCompleted verified = (AuthCredential authResult) {
-      // If the verification is completed automatically (e.g., using a test device)
-      // you can handle the sign-in directly here.
-      // Otherwise, the user should proceed to the CodeScreen to enter the code manually.
-    };
+      final PhoneVerificationCompleted verified = (AuthCredential authResult) {
+        // If the verification is completed automatically (e.g., using a test device)
+        // you can handle the sign-in directly here.
+        // Otherwise, the user should proceed to the CodeScreen to enter the code manually.
+      };
 
-    final PhoneVerificationFailed verificationFailed =
-        (FirebaseAuthException authException) {
-      print('Verification Failed: ${authException.message}');
-      // Handle verification failure here (e.g., show an error to the user)
-    };
+      final PhoneVerificationFailed verificationFailed =
+          (FirebaseAuthException authException) {
+        print('Verification Failed: ${authException.message}');
+        // Handle verification failure here (e.g., show an error to the user)
+      };
 
-    final PhoneCodeSent codeSent =
-        (String verificationId, int? resendToken) async {
-      // Save the verification ID to be used in the CodeScreen
-      setState(() {
-        this.verificationId = verificationId;
-      });
+      final PhoneCodeSent codeSent =
+          (String verificationId, int? resendToken) async {
+        // Save the verification ID to be used in the CodeScreen
+        setState(() {
+          this.verificationId = verificationId;
+        });
 
-      // Navigate to the CodeScreen to enter the verification code
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => CodeScreen(
-            phoneNumber: phoneNumber,
-            verificationId: verificationId,
+        // Navigate to the CodeScreen to enter the verification code
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => CodeScreen(
+              phoneNumber: phoneNumber,
+              verificationId: verificationId,
+            ),
           ),
+        );
+      };
+
+      final PhoneCodeAutoRetrievalTimeout codeAutoRetrievalTimeout =
+          (String verificationId) {
+        // Timeout for code auto-retrieval, if needed
+      };
+
+      await FirebaseAuth.instance.verifyPhoneNumber(
+        phoneNumber: phoneNumber,
+        verificationCompleted: verified,
+        verificationFailed: verificationFailed,
+        codeSent: codeSent,
+        codeAutoRetrievalTimeout: codeAutoRetrievalTimeout,
+      );
+    } else {
+      // Handle no internet connection scenario
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text('No Internet Connection'),
+          content: Text('Please check your internet connection and try again.'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text('OK'),
+            ),
+          ],
         ),
       );
-    };
-
-    final PhoneCodeAutoRetrievalTimeout codeAutoRetrievalTimeout =
-        (String verificationId) {
-      // Timeout for code auto-retrieval, if needed
-    };
-
-    await FirebaseAuth.instance.verifyPhoneNumber(
-      phoneNumber: phoneNumber,
-      verificationCompleted: verified,
-      verificationFailed: verificationFailed,
-      codeSent: codeSent,
-      codeAutoRetrievalTimeout: codeAutoRetrievalTimeout,
-    );
+    }
   }
 
   @override
@@ -119,7 +139,7 @@ class _MailScreenState extends State<MailScreen> {
                 width: 337,
                 height: 145,
                 child: Text(
-                  '\nParticipate',
+                  '\nJoin Us',
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 45,
@@ -174,4 +194,8 @@ class _MailScreenState extends State<MailScreen> {
       ),
     );
   }
+}
+
+void main() {
+  runApp(MailApp());
 }

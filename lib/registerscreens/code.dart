@@ -16,40 +16,41 @@ class CodeScreen extends StatefulWidget {
 
 class _CodeScreenState extends State<CodeScreen> {
   final TextEditingController _codeController = TextEditingController();
+  bool _showErrorMessage = false; // Added variable
 
-Future<void> _confirmCode() async {
-  final String verificationCode = _codeController.text;
+  Future<void> _confirmCode() async {
+    final String verificationCode = _codeController.text;
 
-  final AuthCredential credential = PhoneAuthProvider.credential(
-    verificationId: widget.verificationId,
-    smsCode: verificationCode,
-  );
-
-  try {
-    // Sign in with the credential
-    UserCredential userCredential =
-        await FirebaseAuth.instance.signInWithCredential(credential);
-
-    // The user is now signed in
-    // You can proceed with user authentication or any other actions
-    // You can access the user using userCredential.user
-    print('User signed in: ${userCredential.user?.uid}');
-
-    // Close the keyboard explicitly
-    SystemChannels.textInput.invokeMethod('TextInput.hide');
-
-     
-        Navigator.pushAndRemoveUntil(
-      context,
-      MaterialPageRoute(builder: (context) => MainMenu()),
-      (route) => false,
+    final AuthCredential credential = PhoneAuthProvider.credential(
+      verificationId: widget.verificationId,
+      smsCode: verificationCode,
     );
-    
-  } catch (e) {
-    print('Error signing in: $e');
-  }
-}
 
+    try {
+      // Sign in with the credential
+      UserCredential userCredential =
+          await FirebaseAuth.instance.signInWithCredential(credential);
+
+      // The user is now signed in
+      // You can proceed with user authentication or any other actions
+      // You can access the user using userCredential.user
+      print('User signed in: ${userCredential.user?.uid}');
+
+      // Close the keyboard explicitly
+      SystemChannels.textInput.invokeMethod('TextInput.hide');
+
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => MainMenu()),
+        (route) => false,
+      );
+    } catch (e) {
+      print('Error signing in: $e');
+      setState(() {
+        _showErrorMessage = true; // Show error message on failure
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -171,9 +172,9 @@ Future<void> _confirmCode() async {
                       width: 200,
                       height: 60,
                       child: ElevatedButton(
-                        onPressed:  () async {
+                        onPressed: () async {
                           await _confirmCode();
-                          },
+                        },
                         style: ElevatedButton.styleFrom(
                           primary: Colors.orange,
                           shape: RoundedRectangleBorder(
@@ -199,9 +200,9 @@ Future<void> _confirmCode() async {
                       width: 200,
                       height: 60,
                       child: ElevatedButton(
-                       onPressed:  () async {
+                        onPressed: () async {
                           await _confirmCode();
-                          },
+                        },
                         style: ElevatedButton.styleFrom(
                           primary: Colors.orange,
                           shape: RoundedRectangleBorder(
@@ -220,6 +221,21 @@ Future<void> _confirmCode() async {
                       ),
                     ),
                   ),
+                  Positioned(
+                    left: 30,
+                    top: 430,
+                    child: _showErrorMessage
+                        ? Text(
+                            'Invalid code. Please try again.',
+                            style: TextStyle(
+                              color: Colors.red,
+                              fontSize: 18,
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.w700,
+                            ),
+                          )
+                        : SizedBox.shrink(),
+                  ),
                 ],
               ),
             ),
@@ -229,3 +245,4 @@ Future<void> _confirmCode() async {
     );
   }
 }
+

@@ -1,5 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
+import 'package:estichara/AfterRegister/home2.dart';
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Modern Bottom Navigation',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: MainMenu(),
+    );
+  }
+}
+
 class MainMenu extends StatefulWidget {
   @override
   _MainMenuState createState() => _MainMenuState();
@@ -16,7 +34,7 @@ class _MainMenuState extends State<MainMenu> {
 
   List<Widget> _buildScreens() {
     return [
-      FirstScreen(),
+      Home2(),
       SecondScreen(),
       ThirdScreen(),
     ];
@@ -48,32 +66,34 @@ class _MainMenuState extends State<MainMenu> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Persistent Bottom Navigation Bar Test'),
-      ),
       body: PersistentTabView(
         context,
         controller: _controller,
         screens: _buildScreens(),
         items: _navBarsItems(),
         confineInSafeArea: true,
-        handleAndroidBackButtonPress: true,
-        resizeToAvoidBottomInset: true,
-        stateManagement: true,
-        hideNavigationBarWhenKeyboardShows: true,
+        backgroundColor: Colors.white, // Default is Colors.white.
+        handleAndroidBackButtonPress: true, // Default is true.
+        resizeToAvoidBottomInset: true, // This needs to be true if you want to move up the screen when keyboard appears. Default is true.
+        stateManagement: true, // Default is true.
+        hideNavigationBarWhenKeyboardShows: true, // Recommended to set 'resizeToAvoidBottomInset' as true while using this argument. Default is true.
+        decoration: NavBarDecoration(
+          borderRadius: BorderRadius.circular(10.0),
+          colorBehindNavBar: Colors.white,
+        ),
         popAllScreensOnTapOfSelectedTab: true,
         popActionScreens: PopActionScreensType.all,
-        itemAnimationProperties: ItemAnimationProperties(
+        itemAnimationProperties: ItemAnimationProperties( // Navigation Bar's items animation properties.
           duration: Duration(milliseconds: 200),
           curve: Curves.ease,
         ),
-        screenTransitionAnimation: ScreenTransitionAnimation(
+        screenTransitionAnimation: ScreenTransitionAnimation( // Screen transition animation on change of selected tab.
           animateTabTransition: true,
           curve: Curves.ease,
           duration: Duration(milliseconds: 200),
         ),
-        navBarStyle: NavBarStyle.style15,
-      ),
+        navBarStyle: NavBarStyle.style1, // Choose the nav bar style with this property.
+    ),
     );
   }
 }
@@ -100,7 +120,7 @@ class ThirdScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Text('Profile Screen'),
+      child: Text('Statistics Screen'),
     );
   }
 }
