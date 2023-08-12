@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:internet_connection_checker/internet_connection_checker.dart'; // Import the package
+import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'code.dart';
 
 class MailApp extends StatelessWidget {
@@ -18,17 +19,15 @@ class MailScreen extends StatefulWidget {
 }
 
 class _MailScreenState extends State<MailScreen> {
-  final TextEditingController _phoneNumberController = TextEditingController();
-  String verificationId = ''; // Variable to store the verification ID
+  PhoneNumber _phoneNumber = PhoneNumber(isoCode: 'US');
+  String verificationId = '';
 
   Future<void> _sendCode() async {
     if (await InternetConnectionChecker().hasConnection) {
-      final String phoneNumber = _phoneNumberController.text;
+      final String phoneNumber = _phoneNumber.phoneNumber!;
 
       final PhoneVerificationCompleted verified = (AuthCredential authResult) {
-        // If the verification is completed automatically (e.g., using a test device)
-        // you can handle the sign-in directly here.
-        // Otherwise, the user should proceed to the CodeScreen to enter the code manually.
+        // If the verification is completed automatically, handle sign-in directly
       };
 
       final PhoneVerificationFailed verificationFailed =
@@ -39,12 +38,10 @@ class _MailScreenState extends State<MailScreen> {
 
       final PhoneCodeSent codeSent =
           (String verificationId, int? resendToken) async {
-        // Save the verification ID to be used in the CodeScreen
         setState(() {
           this.verificationId = verificationId;
         });
 
-        // Navigate to the CodeScreen to enter the verification code
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -69,7 +66,6 @@ class _MailScreenState extends State<MailScreen> {
         codeAutoRetrievalTimeout: codeAutoRetrievalTimeout,
       );
     } else {
-      // Handle no internet connection scenario
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
@@ -99,14 +95,14 @@ class _MailScreenState extends State<MailScreen> {
         child: Stack(
           children: [
             Positioned(
-                    left: 45,
-                    top: 250,
-                    child: SizedBox (
-                      width: 300,height: 250,
-                      child: Image.asset('img/5.png'),
-                      )
-                      ),
-            
+              left: 45,
+              top: 250,
+              child: SizedBox(
+                width: 300,
+                height: 250,
+                child: Image.asset('img/5.png'),
+              ),
+            ),
             Positioned(
               left: 28,
               top: 520,
@@ -124,14 +120,18 @@ class _MailScreenState extends State<MailScreen> {
                     horizontal: 10.0,
                     vertical: 14,
                   ),
-                  child: TextField(
-                    controller: _phoneNumberController,
-                    keyboardType: TextInputType.phone,
-                    decoration: InputDecoration(
+                  child: InternationalPhoneNumberInput(
+                    onInputChanged: (PhoneNumber number) {
+                      _phoneNumber = number;
+                    },
+                    selectorConfig: SelectorConfig(
+                      selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
+                    ),
+                    inputDecoration: InputDecoration(
                       hintText: 'Phone Number',
                       border: InputBorder.none,
                     ),
-                    style: TextStyle(
+                    textStyle: TextStyle(
                       color: Colors.black,
                       fontSize: 20,
                       fontFamily: 'Inter',

@@ -4,6 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:estichara/home.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:estichara/registerscreens/email.dart';
 
 class CodeScreen extends StatefulWidget {
   final String phoneNumber;
@@ -16,7 +18,37 @@ class CodeScreen extends StatefulWidget {
 }
 
 class _CodeScreenState extends State<CodeScreen> {
-  bool _showErrorMessage = false; // Added variable
+  bool _showErrorMessage = false;
+  Future<void> _resendCode() async {
+    final PhoneVerificationCompleted verificationCompleted =
+        (PhoneAuthCredential credential) async {};
+
+    final PhoneVerificationFailed verificationFailed =
+        (FirebaseAuthException authException) {
+      print('Verification Failed: ${authException.message}');
+    };
+
+    final PhoneCodeSent codeSent =
+        (String verificationId, int? resendToken) async {
+      print('Verification Code Sent');
+      print('Verification ID: $verificationId');
+    };
+
+    final PhoneCodeAutoRetrievalTimeout codeAutoRetrievalTimeout =
+        (String verificationId) {
+      print('Auto Retrieval Timeout');
+    };
+
+    await FirebaseAuth.instance.verifyPhoneNumber(
+      phoneNumber: widget.phoneNumber,
+      verificationCompleted: verificationCompleted,
+      verificationFailed: verificationFailed,
+      codeSent: codeSent,
+      codeAutoRetrievalTimeout: codeAutoRetrievalTimeout,
+      // Optional: Specify a timeout duration for the code auto-retrieval
+      timeout: Duration(seconds: 60),
+    );
+  }
 
   Future<void> _confirmCode(String verificationCode) async {
     final AuthCredential credential = PhoneAuthProvider.credential(
@@ -103,10 +135,10 @@ class _CodeScreenState extends State<CodeScreen> {
                   ),
                   Positioned(
                     left: 30,
-                    top: 198,
+                    top: 180,
                     child: SizedBox(
                       width: 350,
-                      height: 60,
+                      height: 70,
                       child: Text(
                         'Enter the code that we had sent to ${widget.phoneNumber}',
                         style: TextStyle(
@@ -135,13 +167,13 @@ class _CodeScreenState extends State<CodeScreen> {
                     ),
                   ),
                   Positioned(
-                    left: 45,
-                    top: 250,
-                    child: SizedBox (
-                      width: 300,height: 250,
-                      child: Image.asset('img/4.png'),
-                      )
-                      ),
+                      left: 45,
+                      top: 250,
+                      child: SizedBox(
+                        width: 300,
+                        height: 250,
+                        child: Image.asset('img/4.png'),
+                      )),
                   Positioned(
                     left: 30,
                     top: 520,
@@ -182,14 +214,28 @@ class _CodeScreenState extends State<CodeScreen> {
                     ),
                   ),
                   Positioned(
-                    left: 100,
+                    left: 80,
                     top: 620,
+                    child: _showErrorMessage
+                        ? Text(
+                            'Invalid code. Please try again.',
+                            style: TextStyle(
+                              color: Colors.red,
+                              fontSize: 18,
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.w700,
+                            ),
+                          )
+                        : SizedBox.shrink(),
+                  ),
+                  Positioned(
+                    left: 90,
+                    top: 680,
                     child: SizedBox(
                       width: 200,
                       height: 60,
                       child: ElevatedButton(
-                        onPressed: () async {
-                        },
+                        onPressed: () async {},
                         style: ElevatedButton.styleFrom(
                           primary: Colors.orange,
                           shape: RoundedRectangleBorder(
@@ -207,21 +253,6 @@ class _CodeScreenState extends State<CodeScreen> {
                         ),
                       ),
                     ),
-                  ),
-                  Positioned(
-                    left: 120,
-                    top: 700,
-                    child: _showErrorMessage
-                        ? Text(
-                            'Invalid code. Please try again.',
-                            style: TextStyle(
-                              color: Colors.red,
-                              fontSize: 18,
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.w700,
-                            ),
-                          )
-                        : SizedBox.shrink(),
                   ),
                 ],
               ),

@@ -16,6 +16,7 @@ dependencies:
   firebase_core: ^2.15.0
   firebase_auth: ^4.7.2
   fluttertoast: ^8.2.2
+  firebase_analytics: ^10.4.4
   introduction_screen: ^3.1.11
   flutter_onboarding_slider: ^1.0.9
   shared_preferences: ^2.2.0
@@ -25,7 +26,10 @@ dependencies:
   intl_phone_number_input: ^0.7.3+1
   persistent_bottom_nav_bar: ^5.0.2
   internet_connection_checker: ^1.0.0+1
-  
+  phone_number: ^2.0.1
+  libphonenumber: ^2.0.2
+  flutter_screenutil: ^5.8.4
+  google_fonts: ^5.1.0
 
 
   cupertino_icons: ^1.0.2
