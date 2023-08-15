@@ -22,14 +22,17 @@ class SurveyList {
         'Satisfied',
         'Neutral',
         'Dissatisfied',
-        'Very Dissatisfied'
       ],
     ),
     Survey(
       question: 'Which features would you like to see in the future?',
-      imagePath: 'https://via.placeholder.com/163x163',
+      imagePath: 'img/3.png',
       options: ['Improved UI/UX', 'More functionalities', 'Better performance'],
     ),
-    // Add more survey data here...
+Survey(
+      question: 'How has the COVID-19 pandemic affected the global economy?',
+      imagePath: 'img/3.png',
+      options: ['Severe recession & unemployment', 'Digitalization & e-commerce boost', 'Government stimulus & policies','Supply chain disruptions & inflation'],
+    ),
   ];
 }

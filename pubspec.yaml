@@ -30,7 +30,7 @@ dependencies:
   libphonenumber: ^2.0.2
   flutter_screenutil: ^5.8.4
   google_fonts: ^5.1.0
-
+  step_progress_indicator: ^1.0.2
 
   cupertino_icons: ^1.0.2
 
