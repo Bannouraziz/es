@@ -127,11 +127,11 @@ class _SurveyDetailsPageState extends State<SurveyDetailsPage> {
 ),
                       
                  SizedBox(height: 20,),     
-            Container(
+           Container(
               margin: EdgeInsets.only(left: 0),
               child: Align(
                 alignment: Alignment.center,
-                child: Image.asset(
+                child: Image.network(
                   SurveyList.surveys[widget.surveyIndex].imagePath,
                   width: 200,
                   height: 200,

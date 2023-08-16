@@ -3,11 +3,12 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:estichara/onboardscreen/onboard.dart';
 import 'package:estichara/home.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:estichara/surveys/surveyslist.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  Firebase.initializeApp();
-
+  await Firebase.initializeApp();
+  await SurveyList.fetchImageURLs();
   runApp(MyApp());
 }
 

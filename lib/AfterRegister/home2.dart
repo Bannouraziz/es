@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:estichara/AfterRegister/statistics.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:estichara/surveys/surveysscreen.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Home2 extends StatelessWidget {
   const Home2({Key? key}) : super(key: key);
@@ -9,34 +8,34 @@ class Home2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     int days = 0;
-    return Scaffold(
-      backgroundColor: Colors.white, // Set the background color to orange
 
+    return Scaffold(
+      backgroundColor: Colors.white,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Container(
               width: MediaQuery.of(context).size.width,
-              height: 600,
+              height: MediaQuery.of(context).size.height * 0.7,
               clipBehavior: Clip.antiAlias,
               decoration: BoxDecoration(color: Colors.white),
               child: Stack(
                 children: [
                   Positioned(
                     left: 10,
-                    top: 0,
+                    top: -5 ,
                     child: SizedBox(
                       width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height / 2,
-                      child: Image.asset('img/2.jpg'),
+                      height: MediaQuery.of(context).size.height * 0.5,
+                      child: Image.asset('img/2.jpg', fit: BoxFit.cover),
                     ),
                   ),
                   Positioned(
-                    top: 450,
-                    left: MediaQuery.of(context).size.width / 3.5,
+                    top: MediaQuery.of(context).size.height * 0.53,
+                    left: MediaQuery.of(context).size.width * 0.25,
                     child: SizedBox(
-                      width: 180,
+                      width: MediaQuery.of(context).size.width * 0.45,
                       height: 50,
                       child: ElevatedButton(
                         onPressed: () {
@@ -60,10 +59,10 @@ class Home2 extends StatelessWidget {
                     ),
                   ),
                   Positioned(
-                    top: 530,
-                    left: 60,
+                    top: MediaQuery.of(context).size.height * 0.65,
+                    left: MediaQuery.of(context).size.width * 0.18,
                     child: Container(
-                      width: 300,
+                      width: MediaQuery.of(context).size.width * 0.7,
                       height: 150,
                       child: Text(
                         "RM : Still $days days before changing surveys",

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-
+import 'package:estichara/services/storageserv.dart';
 class Survey {
   final String question;
-  final String imagePath;
+   String imagePath; 
   final List<String> options;
 
   Survey({
@@ -12,27 +12,21 @@ class Survey {
   });
 }
 
+
 class SurveyList {
+  static final StorageService _storageService = StorageService();
+
   static List<Survey> surveys = [
     Survey(
       question: 'How satisfied are you with our service?',
-      imagePath: 'img/1.png',
-      options: [
-        'Very Satisfied',
-        'Satisfied',
-        'Neutral',
-        'Dissatisfied',
-      ],
-    ),
-    Survey(
-      question: 'Which features would you like to see in the future?',
-      imagePath: 'img/3.png',
-      options: ['Improved UI/UX', 'More functionalities', 'Better performance'],
-    ),
-Survey(
-      question: 'How has the COVID-19 pandemic affected the global economy?',
-      imagePath: 'img/3.png',
-      options: ['Severe recession & unemployment', 'Digitalization & e-commerce boost', 'Government stimulus & policies','Supply chain disruptions & inflation'],
+      imagePath: 'images/covid-19.png',
+      options: ['Very Satisfied', 'Satisfied', 'Neutral', 'Dissatisfied'],
     ),
   ];
+
+  static Future<void> fetchImageURLs() async {
+    for (var survey in surveys) {
+      survey.imagePath = await _storageService.getImageUrl(survey.imagePath);
+    }
+  }
 }
