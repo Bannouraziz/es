@@ -93,138 +93,99 @@ class _MailScreenState extends State<MailScreen> {
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
+        backgroundColor: Colors.white,
         body: SingleChildScrollView(
           child: Container(
-            width: 414,
-            height: 896,
-            clipBehavior: Clip.antiAlias,
-            decoration: BoxDecoration(color: Colors.white),
-            child: Stack(
+            padding: EdgeInsets.symmetric(horizontal: 16),
+            color: Colors.white,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Positioned(
-                  left: 45,
-                  top: 250,
-                  child: SizedBox(
-                    width: 300,
-                    height: 250,
-                    child: Image.asset('img/5.png'),
+                SizedBox(height: 42),
+                Text(
+                  'Join Us',
+                  style: GoogleFonts.poppins(
+                    textStyle: TextStyle(
+                      color: Colors.black,
+                      fontSize: 45,
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
                 ),
-                Positioned(
-                  left: 28,
-                  top: 520,
-                  child: Container(
-                    width: 359,
-                    height: 80,
-                    decoration: ShapeDecoration(
-                      color: Color(0xFFC8C8C8),
+                SizedBox(height: 16),
+                Text(
+                  'Enter your phone number',
+                  style: GoogleFonts.poppins(
+                    textStyle: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w400,
+                      letterSpacing: 0.25,
+                    ),
+                  ),
+                ),
+                SizedBox(height: 24),
+                SizedBox(
+                  width: double.infinity,
+                  child: Image.asset('img/5.png', fit: BoxFit.cover),
+                ),
+                SizedBox(height: 24),
+                Container(
+                  width: double.infinity,
+                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 14),
+                  decoration: BoxDecoration(
+                    color: Color(0xFFC8C8C8),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: InternationalPhoneNumberInput(
+                    onInputChanged: (PhoneNumber number) {
+                      _phoneNumber = number;
+                    },
+                    selectorConfig: SelectorConfig(
+                      selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
+                    ),
+                    inputDecoration: InputDecoration(
+                      hintText: 'Phone Number',
+                      border: InputBorder.none,
+                    ),
+                    textStyle: GoogleFonts.poppins(
+                      textStyle: TextStyle(
+                        color: Colors.black,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 20),
+                Align(
+                  alignment: Alignment.center,
+                  child: ElevatedButton(
+                    
+                    onPressed: _sendCode,
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.orange,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(10),
                       ),
+                      fixedSize: Size(200, 60)
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 10.0,
-                        vertical: 14,
-                      ),
-                      child: InternationalPhoneNumberInput(
-                        onInputChanged: (PhoneNumber number) {
-                          _phoneNumber = number;
-                        },
-                        selectorConfig: SelectorConfig(
-                          selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
-                        ),
-                        inputDecoration: InputDecoration(
-                          hintText: 'Phone Number',
-                          border: InputBorder.none,
-                        ),
-                        textStyle: GoogleFonts.poppins( 
-                          textStyle: TextStyle(
-                            color: Colors.black,
-                            fontSize: 20,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                Positioned(
-                  left: 16,
-                  top: 42,
-                  child: SizedBox(
-                    width: 337,
-                    height: 145,
                     child: Text(
-                      '\nJoin Us',
+                      'Send Code',
                       style: GoogleFonts.poppins(
-                        textStyle: TextStyle(
-                          color: Colors.black,
-                          fontSize: 45,
-                          fontWeight: FontWeight.w700,
-                        ),
+                        textStyle: TextStyle(color: Colors.white, fontSize: 20),
                       ),
                     ),
                   ),
                 ),
-                Positioned(
-                  left: 16,
-                  top: 180,
-                  child: SizedBox(
-                    width: 342,
-                    height: 60,
-                    child: Text(
-                      'Enter your phone number',
-                      style: GoogleFonts.poppins( 
-                        textStyle: TextStyle(
-                          color: Colors.black,
-                          fontSize: 20,
-                          fontWeight: FontWeight.w400,
-                          height: 1,
-                          letterSpacing: 0.25,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                Positioned(
-                  left: 125,
-                  top: 640,
-                  child: SizedBox(
-                    width: 167,
-                    height: 50,
-                    child: ElevatedButton(
-                      onPressed: _sendCode,
-                      style: ElevatedButton.styleFrom(
-                        primary: Colors.orange,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
-                      child: Text(
-                        'Send Code',
-                        style: GoogleFonts.poppins( 
-                          textStyle: TextStyle(color: Colors.white, fontSize: 20),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                Positioned(
-                  left: 80,
-                  top: 700,
-                  child: Container(
-                    width: 300,
-                    height: 200,
-                    child: Text(
-                     _errorMessage,
-                      style: GoogleFonts.poppins( 
-                        textStyle: TextStyle(
-                          color: Colors.red,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
+                SizedBox(height: 16),
+                Text(
+                  _errorMessage,
+                  style: GoogleFonts.poppins(
+                    textStyle: TextStyle(
+                      color: Colors.red,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w700,
                     ),
                   ),
                 ),
@@ -235,8 +196,4 @@ class _MailScreenState extends State<MailScreen> {
       ),
     );
   }
-}
-
-void main() {
-  runApp(MailApp());
 }

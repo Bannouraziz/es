@@ -82,171 +82,125 @@ class _CodeScreenState extends State<CodeScreen> {
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
+        backgroundColor: Colors.white,
         body: SingleChildScrollView(
-          child: Column(
-            children: [
-              Container(
-                width: 414,
-                height: 896,
-                clipBehavior: Clip.antiAlias,
-                decoration: ShapeDecoration(
-                  color: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 18),
+            color: Colors.white,
+            child: Column(
+              children: [
+                SizedBox(height: 42),
+                   Align(
+                    alignment: Alignment.topLeft,
+                     child: IconButton(
+                          icon: Icon(Icons.arrow_back),
+                            onPressed: () {
+                      Navigator.pop(context);
+                                     },
+                                   ),
+                   ),
+                SizedBox(height: 16),
+                 Align(
+                  alignment: Alignment.topLeft,
+                   child: Text(
+                    'Enter Code',
+                    style: GoogleFonts.poppins(
+                      textStyle: TextStyle(
+                        color: Colors.black,
+                        fontSize: 45,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    ),
+                 ),  
+                SizedBox(height: 24),
+                Align(
+                    alignment: Alignment.topLeft,
+                  child: Text(
+                    'Enter the code that we had sent to ${widget.phoneNumber}',
+                    style: GoogleFonts.poppins(
+                      textStyle: TextStyle(
+                        color: Colors.black,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w400,
+                        letterSpacing: 0.25,
+                      ),
+                    ),
+                    textAlign: TextAlign.center,
                   ),
                 ),
-                child: Stack(
-                  children: [
-                    Positioned(
-                      left: 28,
-                      top: 80,
-                      child: SizedBox(
-                        width: 342,
-                        child: Text(
-                          'Enter Code',
-                         style: GoogleFonts.poppins(
-                          textStyle: TextStyle(
-                            color: Colors.black,
-                            fontSize: 45,
-                            fontWeight: FontWeight.w700,
-                          ),
-                         ),
-                        ),
-                      ),
+                SizedBox(height: 24),
+                Image.asset('img/4.png', width: 300, height: 250),
+                SizedBox(height: 24),
+                Container(
+                  width: double.infinity,
+                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: PinCodeTextField(
+                    appContext: context,
+                    length: 6,
+                    onChanged: (value) {
+                      if (_showErrorMessage) {
+                        setState(() {
+                          _showErrorMessage = false;
+                        });
+                      }
+                    },
+                    onCompleted: _confirmCode,
+                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                    pinTheme: PinTheme(
+                      shape: PinCodeFieldShape.box,
+                      borderRadius: BorderRadius.circular(10),
+                      fieldHeight: 60,
+                      fieldWidth: 48,
+                      activeFillColor: Colors.white,
+                      inactiveFillColor: Color(0xFFC8C8C8),
+                      selectedFillColor: Colors.white,
                     ),
-                    Positioned(
-                      left: 7,
-                      top: 27,
-                      child: IconButton(
-                        icon: Icon(Icons.arrow_back),
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                      ),
+                    textStyle: TextStyle(
+                      color: Colors.black,
+                      fontSize: 24,
+                      fontFamily: 'Inter',
+                      fontWeight: FontWeight.w700,
                     ),
-                    Positioned(
-                      left: 30,
-                      top: 150,
-                      child: SizedBox(
-                        width: 350,
-                        height: 70,
-                        child: Text(
-                          'Enter the code that we had sent to ${widget.phoneNumber}',
-                          style: GoogleFonts.poppins( 
-                          textStyle: TextStyle(
-                            color: Colors.black,
-                            fontSize: 20,
-                            fontWeight: FontWeight.w400,
-                            height: 1,
-                            letterSpacing: 0.25,
-                          ),
-                        ),
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      left: 28,
-                      top: 325,
-                      child: Container(
-                        width: 359,
-                        height: 85,
-                        decoration: ShapeDecoration(
-                          color: Color.fromARGB(255, 255, 255, 255),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                        left: 45,
-                        top: 250,
-                        child: SizedBox(
-                          width: 300,
-                          height: 250,
-                          child: Image.asset('img/4.png'),
-                        )),
-                    Positioned(
-                      left: 30,
-                      top: 520,
-                      child: SizedBox(
-                        width: 348,
-                        height: 83,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 0.0, vertical: 10),
-                          child: PinCodeTextField(
-                            appContext: context,
-                            length: 6,
-                            onChanged: (value) {
-                              if (_showErrorMessage) {
-                                setState(() {
-                                  _showErrorMessage = false;
-                                });
-                              }
-                            },
-                            onCompleted: _confirmCode,
-                            pinTheme: PinTheme(
-                              shape: PinCodeFieldShape.box,
-                              borderRadius: BorderRadius.circular(10),
-                              fieldHeight: 60,
-                              fieldWidth: 48,
-                              activeFillColor: Colors.white,
-                              inactiveFillColor: Color(0xFFC8C8C8),
-                              selectedFillColor: Colors.white,
-                            ),
-                            textStyle: TextStyle(
-                              color: Colors.black,
-                              fontSize: 24,
-                              fontFamily: 'Inter',
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      left: 80,
-                      top: 620,
-                      child: _showErrorMessage
-                          ? Text(
-                              'Invalid code. Please try again.',
-                              style: TextStyle(
-                                color: Colors.red,
-                                fontSize: 18,
-                                fontFamily: 'Poppins',
-                                fontWeight: FontWeight.w700,
-                              ),
-                            )
-                          : SizedBox.shrink(),
-                    ),
-                    Positioned(
-                      left: 90,
-                      top: 650,
-                      child: SizedBox(
-                        width: 200,
-                        height: 60,
-                        child: ElevatedButton(
-                          onPressed: () async {},
-                          style: ElevatedButton.styleFrom(
-                            primary: Colors.orange,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                          ),
-                          child: Text(
-                            'Resend code',
-                            style: GoogleFonts.poppins( 
-                            textStyle: TextStyle(color: Colors.white, fontSize: 20),
-                          ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
-              ),
-            ],
+                SizedBox(height: 16),
+                _showErrorMessage
+                    ? Text(
+                        'Invalid code. Please try again.',
+                        style: TextStyle(
+                          color: Colors.red,
+                          fontSize: 18,
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.w700,
+                        ),
+                      )
+                    : SizedBox.shrink(),
+                SizedBox(height: 16),
+                ElevatedButton(
+                  onPressed: () async {
+                    await _resendCode();
+                  },
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.orange,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    fixedSize: Size(200, 60)
+                  ),
+                  child: Text(
+                    'Resend code',
+                    style: GoogleFonts.poppins(
+                      textStyle: TextStyle(color: Colors.white, fontSize: 20),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
