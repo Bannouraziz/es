@@ -1,32 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:estichara/services/storageserv.dart';
-class Survey {
-  final String question;
-   String imagePath; 
-  final List<String> options;
-
-  Survey({
-    required this.question,
-    required this.imagePath,
-    required this.options,
-  });
-}
-
+import 'package:estichara/surveys/Survey.dart';
+import 'package:estichara/services/storageserv.dart' as st;
+import 'package:estichara/services/firestoreserv.dart';
 
 class SurveyList {
   static final StorageService _storageService = StorageService();
+  final FirestoreService _firestoreService = FirestoreService();
 
-  static List<Survey> surveys = [
-    Survey(
-      question: 'How satisfied are you with our service?',
-      imagePath: 'images/covid-19.png',
-      options: ['Very Satisfied', 'Satisfied', 'Neutral', 'Dissatisfied'],
-    ),
-  ];
+  static List<Survey> surveys = [];
 
-  static Future<void> fetchImageURLs() async {
-    for (var survey in surveys) {
-      survey.imagePath = await _storageService.getImageUrl(survey.imagePath);
+  Future<void> fetchSurveysAndImageURLs() async {
+    List<Survey> fetchedSurveys = await _firestoreService.getSurveys();
+
+    for (var survey in fetchedSurveys) {
+      survey.imageUrl = await _storageService.getImageUrl(survey.imagePath);
     }
+
+    surveys = fetchedSurveys;
   }
 }

@@ -9,12 +9,10 @@ class SurveyScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
       body: ListView.builder(
         itemCount: SurveyList.surveys.length,
         itemBuilder: (context, index) {
           return Padding(
-            
             padding:
                 const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
             child: Card(
@@ -80,7 +78,7 @@ class SurveyDetailsPage extends StatefulWidget {
 }
 
 class _SurveyDetailsPageState extends State<SurveyDetailsPage> {
-  int selectedOption = 0; 
+  int selectedOption = 0;
 
   void selectOption(int option) {
     setState(() {
@@ -91,48 +89,51 @@ class _SurveyDetailsPageState extends State<SurveyDetailsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-   
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 20,)
-            ,
+            SizedBox(
+              height: 20,
+            ),
             IconButton(
-                icon: Icon(Icons.arrow_back),
-                   onPressed: () {
-                   Navigator.pop(context);
-                     },
-                      ),
-                      SizedBox(height: 20,),
-                       StepProgressIndicator(
-    totalSteps: 10,
-    currentStep: widget.surveyIndex,
-    size: 10,
-    padding: 0,
-    selectedColor: Colors.orange,
-    unselectedColor: Colors.black,
-    roundedEdges: Radius.circular(10),
-    selectedGradientColor: LinearGradient(
-        begin: Alignment.topLeft,
-        end: Alignment.bottomRight,
-        colors: [Colors.orange, Colors.deepOrange],
-    ),
-    unselectedGradientColor: LinearGradient(
-        begin: Alignment.topLeft,
-        end: Alignment.bottomRight,
-        colors: [Colors.black, Colors.black],
-    ),
-),
-                      
-                 SizedBox(height: 20,),     
-           Container(
+              icon: Icon(Icons.arrow_back),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            StepProgressIndicator(
+              totalSteps: 10,
+              currentStep: widget.surveyIndex,
+              size: 10,
+              padding: 0,
+              selectedColor: Colors.orange,
+              unselectedColor: Colors.black,
+              roundedEdges: Radius.circular(10),
+              selectedGradientColor: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [Colors.orange, Colors.deepOrange],
+              ),
+              unselectedGradientColor: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [Colors.black, Colors.black],
+              ),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Container(
               margin: EdgeInsets.only(left: 0),
               child: Align(
                 alignment: Alignment.center,
                 child: Image.network(
-                  SurveyList.surveys[widget.surveyIndex].imagePath,
+                  SurveyList.surveys[widget.surveyIndex].imageUrl,
                   width: 200,
                   height: 200,
                   fit: BoxFit.cover,
@@ -148,24 +149,28 @@ class _SurveyDetailsPageState extends State<SurveyDetailsPage> {
               ),
             ),
             SizedBox(height: 20),
-            for (int i = 0; i < SurveyList.surveys[widget.surveyIndex].options.length; i++)
+            for (int i = 0;
+                i < SurveyList.surveys[widget.surveyIndex].options.length;
+                i++)
               GestureDetector(
                 onTap: () => selectOption(i + 1),
                 child: Container(
                   padding: EdgeInsets.all(5),
                   decoration: BoxDecoration(
-                    color: selectedOption == i + 1 ? Colors.orange : Colors.grey[300],
+                    color: selectedOption == i + 1
+                        ? Colors.orange
+                        : Colors.grey[300],
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: ListTile(
-                    title: Text("${i+1}. ${SurveyList.surveys[widget.surveyIndex].options[i]}",
+                    title: Text(
+                      "${i + 1}. ${SurveyList.surveys[widget.surveyIndex].options[i]}",
                       style: GoogleFonts.poppins(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
                         color: Colors.black,
                       ),
                     ),
-                   
                   ),
                 ),
               ),
