@@ -34,7 +34,7 @@ dependencies:
   step_progress_indicator: ^1.0.2
   cloud_firestore: ^4.8.4
   firebase_crashlytics: ^3.3.5
-
+  syncfusion_flutter_charts: ^22.2.9
   cupertino_icons: ^1.0.2
 
 dev_dependencies:

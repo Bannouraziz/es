@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:estichara/AfterRegister/home2.dart';
+import 'package:estichara/statistics/statistics.dart';
 void main() {
   runApp(MyApp());
 }
@@ -36,7 +37,7 @@ class _MainMenuState extends State<MainMenu> {
     return [
       Home2(),
       SecondScreen(),
-      ThirdScreen(),
+      AllSurveysStatisticsScreen(),
     ];
   }
 
@@ -116,11 +117,3 @@ class SecondScreen extends StatelessWidget {
   }
 }
 
-class ThirdScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text('Statistics Screen'),
-    );
-  }
-}

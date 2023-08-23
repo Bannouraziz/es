@@ -1,7 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:estichara/services/storageserv.dart';
 import 'package:estichara/surveys/Survey.dart';
-import 'package:estichara/services/storageserv.dart' as st;
 import 'package:estichara/services/firestoreserv.dart';
 
 class SurveyList {

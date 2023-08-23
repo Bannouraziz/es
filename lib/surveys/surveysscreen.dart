@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:estichara/surveys/surveyslist.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class SurveyScreen extends StatelessWidget {
   const SurveyScreen({Key? key}) : super(key: key);
@@ -78,12 +80,24 @@ class SurveyDetailsPage extends StatefulWidget {
 }
 
 class _SurveyDetailsPageState extends State<SurveyDetailsPage> {
-  int selectedOption = 0;
+  String selectedOption = "";
 
-  void selectOption(int option) {
+  void selectOption(String option) {
     setState(() {
       selectedOption = option;
     });
+  }
+
+  void submitResponse(String surveyId, String selectedOption) async {
+    String userId = FirebaseAuth.instance.currentUser!.uid;
+
+    await FirebaseFirestore.instance.collection('responses').add({
+      'user_id': userId,
+      'survey_id': surveyId,
+      'selected_option': selectedOption,
+    });
+
+    Navigator.pop(context);
   }
 
   @override
@@ -94,18 +108,14 @@ class _SurveyDetailsPageState extends State<SurveyDetailsPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(
-              height: 20,
-            ),
+            SizedBox(height: 20),
             IconButton(
               icon: Icon(Icons.arrow_back),
               onPressed: () {
                 Navigator.pop(context);
               },
             ),
-            SizedBox(
-              height: 20,
-            ),
+            SizedBox(height: 20),
             StepProgressIndicator(
               totalSteps: 10,
               currentStep: widget.surveyIndex,
@@ -125,16 +135,14 @@ class _SurveyDetailsPageState extends State<SurveyDetailsPage> {
                 colors: [Colors.black, Colors.black],
               ),
             ),
-            SizedBox(
-              height: 20,
-            ),
+            SizedBox(height: 20),
             Container(
               margin: EdgeInsets.only(left: 0),
               child: Align(
                 alignment: Alignment.center,
                 child: Image.network(
                   SurveyList.surveys[widget.surveyIndex].imageUrl,
-                  width: 200,
+                  width: 300,
                   height: 200,
                   fit: BoxFit.cover,
                 ),
@@ -149,22 +157,21 @@ class _SurveyDetailsPageState extends State<SurveyDetailsPage> {
               ),
             ),
             SizedBox(height: 20),
-            for (int i = 0;
-                i < SurveyList.surveys[widget.surveyIndex].options.length;
-                i++)
+            for (String option
+                in SurveyList.surveys[widget.surveyIndex].options)
               GestureDetector(
-                onTap: () => selectOption(i + 1),
+                onTap: () => selectOption(option),
                 child: Container(
                   padding: EdgeInsets.all(5),
                   decoration: BoxDecoration(
-                    color: selectedOption == i + 1
+                    color: selectedOption == option
                         ? Colors.orange
                         : Colors.grey[300],
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: ListTile(
                     title: Text(
-                      "${i + 1}. ${SurveyList.surveys[widget.surveyIndex].options[i]}",
+                      "$option",
                       style: GoogleFonts.poppins(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
@@ -180,8 +187,10 @@ class _SurveyDetailsPageState extends State<SurveyDetailsPage> {
               children: [
                 ElevatedButton(
                   onPressed: () {
-                    if (selectedOption != 0) {
-                      Navigator.pop(context);
+                    if (selectedOption.isNotEmpty) {
+                      submitResponse(
+                          SurveyList.surveys[widget.surveyIndex].question,
+                          selectedOption);
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(

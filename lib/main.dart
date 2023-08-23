@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
         builder: (context, child) {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
-            title: 'App Name',
+            title: 'Estichara',
             theme: ThemeData(
               primarySwatch: Colors.orange,
             ),
