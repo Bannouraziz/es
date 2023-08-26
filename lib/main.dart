@@ -9,8 +9,11 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await SurveyList().fetchSurveysAndImageURLs() ; 
-  // FirebaseCrashlytics.instance.crash();
-  runApp(MyApp());
+
+    await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(false);
+
+  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError; 
+   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {

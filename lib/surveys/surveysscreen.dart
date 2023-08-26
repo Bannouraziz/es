@@ -5,6 +5,8 @@ import 'package:step_progress_indicator/step_progress_indicator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import '../history/historyvotes.dart';
+
 class SurveyScreen extends StatelessWidget {
   const SurveyScreen({Key? key}) : super(key: key);
 
@@ -81,6 +83,17 @@ class SurveyDetailsPage extends StatefulWidget {
 
 class _SurveyDetailsPageState extends State<SurveyDetailsPage> {
   String selectedOption = "";
+  late VotingHistoryManager _votingHistoryManager;
+
+  @override
+  void initState() {
+    super.initState();
+    _initializeVotingHistoryManager();
+  }
+
+  Future<void> _initializeVotingHistoryManager() async {
+    _votingHistoryManager = await VotingHistoryManager.create();
+  }
 
   void selectOption(String option) {
     setState(() {
@@ -96,6 +109,8 @@ class _SurveyDetailsPageState extends State<SurveyDetailsPage> {
       'survey_id': surveyId,
       'selected_option': selectedOption,
     });
+
+    _votingHistoryManager.setVoted(surveyId);
 
     Navigator.pop(context);
   }
@@ -186,11 +201,24 @@ class _SurveyDetailsPageState extends State<SurveyDetailsPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
                     if (selectedOption.isNotEmpty) {
-                      submitResponse(
+                      if (await _votingHistoryManager?.hasVoted(SurveyList
+                              .surveys[widget.surveyIndex].question) ??
+                          false) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            backgroundColor: Colors.red,
+                            content:
+                                Text('You have already voted in this survey.'),
+                          ),
+                        );
+                      } else {
+                        submitResponse(
                           SurveyList.surveys[widget.surveyIndex].question,
-                          selectedOption);
+                          selectedOption,
+                        );
+                      }
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(

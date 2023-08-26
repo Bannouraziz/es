@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:estichara/AfterRegister/home2.dart';
 import 'package:estichara/statistics/statistics.dart';
+import 'package:estichara/statistics/statisticscard.dart';
+
 void main() {
   runApp(MyApp());
 }
@@ -37,7 +39,7 @@ class _MainMenuState extends State<MainMenu> {
     return [
       Home2(),
       SecondScreen(),
-      AllSurveysStatisticsScreen(),
+      SurveyListScreen(),
     ];
   }
 
@@ -75,26 +77,31 @@ class _MainMenuState extends State<MainMenu> {
         confineInSafeArea: true,
         backgroundColor: Colors.white, // Default is Colors.white.
         handleAndroidBackButtonPress: true, // Default is true.
-        resizeToAvoidBottomInset: true, // This needs to be true if you want to move up the screen when keyboard appears. Default is true.
+        resizeToAvoidBottomInset:
+            true, // This needs to be true if you want to move up the screen when keyboard appears. Default is true.
         stateManagement: true, // Default is true.
-        hideNavigationBarWhenKeyboardShows: true, // Recommended to set 'resizeToAvoidBottomInset' as true while using this argument. Default is true.
+        hideNavigationBarWhenKeyboardShows:
+            true, // Recommended to set 'resizeToAvoidBottomInset' as true while using this argument. Default is true.
         decoration: NavBarDecoration(
           borderRadius: BorderRadius.circular(10.0),
           colorBehindNavBar: Colors.white,
         ),
         popAllScreensOnTapOfSelectedTab: true,
         popActionScreens: PopActionScreensType.all,
-        itemAnimationProperties: ItemAnimationProperties( // Navigation Bar's items animation properties.
+        itemAnimationProperties: ItemAnimationProperties(
+          // Navigation Bar's items animation properties.
           duration: Duration(milliseconds: 200),
           curve: Curves.ease,
         ),
-        screenTransitionAnimation: ScreenTransitionAnimation( // Screen transition animation on change of selected tab.
+        screenTransitionAnimation: ScreenTransitionAnimation(
+          // Screen transition animation on change of selected tab.
           animateTabTransition: true,
           curve: Curves.ease,
           duration: Duration(milliseconds: 200),
         ),
-        navBarStyle: NavBarStyle.style1, // Choose the nav bar style with this property.
-    ),
+        navBarStyle:
+            NavBarStyle.style1, // Choose the nav bar style with this property.
+      ),
     );
   }
 }
@@ -116,4 +123,3 @@ class SecondScreen extends StatelessWidget {
     );
   }
 }
-

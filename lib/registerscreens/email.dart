@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart'; 
+import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
@@ -31,7 +31,8 @@ class _MailScreenState extends State<MailScreen> {
       final PhoneVerificationFailed verificationFailed =
           (FirebaseAuthException authException) {
         setState(() {
-          _errorMessage = 'Verification code cannot be sent, please enter the phone number in the correct format.';
+          _errorMessage =
+              'Verification code cannot be sent, please enter the phone number in the correct format.';
         });
       };
 
@@ -161,15 +162,13 @@ class _MailScreenState extends State<MailScreen> {
                 Align(
                   alignment: Alignment.center,
                   child: ElevatedButton(
-                    
                     onPressed: _sendCode,
                     style: ElevatedButton.styleFrom(
-                      primary: Colors.orange,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      fixedSize: Size(200, 60)
-                    ),
+                        primary: Colors.orange,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        fixedSize: Size(200, 60)),
                     child: Text(
                       'Send Code',
                       style: GoogleFonts.poppins(
