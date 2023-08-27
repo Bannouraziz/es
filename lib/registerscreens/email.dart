@@ -23,69 +23,87 @@ class _MailScreenState extends State<MailScreen> {
   PhoneNumber _phoneNumber = PhoneNumber(isoCode: 'US');
   String verificationId = '';
   String _errorMessage = '';
+  bool _isSendingCode = false;
 
-  Future<void> _sendCode() async {
-    if (await InternetConnectionChecker().hasConnection) {
-      final String phoneNumber = _phoneNumber.phoneNumber!;
+Future<void> _sendCode() async {
+  if (_isSendingCode) {
+    return;
+  }
 
-      final PhoneVerificationFailed verificationFailed =
-          (FirebaseAuthException authException) {
-        setState(() {
-          _errorMessage =
-              'Verification code cannot be sent, please enter the phone number in the correct format.';
-        });
-      };
+  setState(() {
+    _isSendingCode = true;
+    _errorMessage = '';
+  });
 
-      final PhoneCodeSent codeSent =
-          (String verificationId, int? resendToken) async {
-        setState(() {
-          this.verificationId = verificationId;
-        });
+  if (await InternetConnectionChecker().hasConnection) {
+    final String phoneNumber = _phoneNumber.phoneNumber!;
 
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => CodeScreen(
-              phoneNumber: phoneNumber,
-              verificationId: verificationId,
-            ),
-          ),
-        );
-      };
-
-      final PhoneCodeAutoRetrievalTimeout codeAutoRetrievalTimeout =
-          (String verificationId) {
-        // Timeout for code auto-retrieval, if needed
-      };
-
-      await FirebaseAuth.instance.verifyPhoneNumber(
-        phoneNumber: phoneNumber,
-        verificationCompleted: (PhoneAuthCredential credential) {},
-        verificationFailed: verificationFailed,
-        codeSent: codeSent,
-        codeAutoRetrievalTimeout: codeAutoRetrievalTimeout,
-      );
-    } else {
+    final PhoneVerificationFailed verificationFailed =
+        (FirebaseAuthException authException) {
       setState(() {
-        _errorMessage = 'No Internet Connection';
+        _errorMessage =
+            'Verification code cannot be sent, please enter the phone number in the correct format.';
+        _isSendingCode = false; 
       });
-      showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: Text('No Internet Connection'),
-          content: Text('Please check your internet connection and try again.'),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: Text('OK'),
-            ),
-          ],
+    };
+
+    final PhoneCodeSent codeSent =
+        (String verificationId, int? resendToken) async {
+      setState(() {
+        this.verificationId = verificationId;
+      });
+
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => CodeScreen(
+            phoneNumber: phoneNumber,
+            verificationId: verificationId,
+          ),
         ),
       );
-    }
+
+      setState(() {
+        _isSendingCode = false; 
+      });
+    };
+
+    final PhoneCodeAutoRetrievalTimeout codeAutoRetrievalTimeout =
+        (String verificationId) {
+      setState(() {
+        _isSendingCode = false; 
+      });
+    };
+
+    await FirebaseAuth.instance.verifyPhoneNumber(
+      phoneNumber: phoneNumber,
+      verificationCompleted: (PhoneAuthCredential credential) {},
+      verificationFailed: verificationFailed,
+      codeSent: codeSent,
+      codeAutoRetrievalTimeout: codeAutoRetrievalTimeout,
+    );
+  } else {
+    setState(() {
+      _errorMessage = 'No Internet Connection';
+      _isSendingCode = false; 
+    });
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('No Internet Connection'),
+        content: Text('Please check your internet connection and try again.'),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: Text('OK'),
+          ),
+        ],
+      ),
+    );
   }
+}
 
   @override
   Widget build(BuildContext context) {

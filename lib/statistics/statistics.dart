@@ -44,13 +44,15 @@ class _SurveyStatisticsScreenState extends State<SurveyStatisticsScreen> {
               chartData.add(ChartData(option, percentage));
             });
 
+            double screenHeight = MediaQuery.of(context).size.height;
+            double topPadding = screenHeight * 0.08;
             return Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(top: 21),
+                    padding: EdgeInsets.only(top: topPadding),
                     child: Text(
                       'Survey: ${widget.survey.question}',
                       style: TextStyle(

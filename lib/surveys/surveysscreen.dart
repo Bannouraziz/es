@@ -4,8 +4,7 @@ import 'package:estichara/surveys/surveyslist.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
-import '../history/historyvotes.dart';
+import 'package:estichara/history/historyvotes.dart';
 
 class SurveyScreen extends StatelessWidget {
   const SurveyScreen({Key? key}) : super(key: key);
@@ -101,18 +100,34 @@ class _SurveyDetailsPageState extends State<SurveyDetailsPage> {
     });
   }
 
+  Future<bool> checkVotingHistory(String surveyId, String userId) async {
+    return _votingHistoryManager.hasVoted(surveyId, userId);
+  }
+
   void submitResponse(String surveyId, String selectedOption) async {
     String userId = FirebaseAuth.instance.currentUser!.uid;
 
-    await FirebaseFirestore.instance.collection('responses').add({
-      'user_id': userId,
-      'survey_id': surveyId,
-      'selected_option': selectedOption,
-    });
+    bool hasVoted = await checkVotingHistory(
+        SurveyList.surveys[widget.surveyIndex].question, userId);
 
-    _votingHistoryManager.setVoted(surveyId);
+    if (!hasVoted) {
+      await FirebaseFirestore.instance.collection('responses').add({
+        'user_id': userId,
+        'survey_id': surveyId,
+        'selected_option': selectedOption,
+      });
 
-    Navigator.pop(context);
+      await _votingHistoryManager.setVoted(surveyId, userId);
+
+      Navigator.pop(context);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: Colors.red,
+          content: Text('You have already voted for this survey.'),
+        ),
+      );
+    }
   }
 
   @override
@@ -203,22 +218,10 @@ class _SurveyDetailsPageState extends State<SurveyDetailsPage> {
                 ElevatedButton(
                   onPressed: () async {
                     if (selectedOption.isNotEmpty) {
-                      if (await _votingHistoryManager?.hasVoted(SurveyList
-                              .surveys[widget.surveyIndex].question) ??
-                          false) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            backgroundColor: Colors.red,
-                            content:
-                                Text('You have already voted in this survey.'),
-                          ),
-                        );
-                      } else {
-                        submitResponse(
-                          SurveyList.surveys[widget.surveyIndex].question,
-                          selectedOption,
-                        );
-                      }
+                      submitResponse(
+                        SurveyList.surveys[widget.surveyIndex].question,
+                        selectedOption,
+                      );
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
