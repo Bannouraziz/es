@@ -1,6 +1,6 @@
-import 'package:estichara/services/storageserv.dart';
-import 'package:estichara/surveys/Survey.dart';
-import 'package:estichara/services/firestoreserv.dart';
+import 'package:Estichara/services/storageserv.dart';
+import 'package:Estichara/surveys/Survey.dart';
+import 'package:Estichara/services/firestoreserv.dart';
 
 class SurveyList {
   static final StorageService _storageService = StorageService();

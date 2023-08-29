@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:estichara/surveys/surveysscreen.dart';
+import 'package:Estichara/surveys/surveysscreen.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Home2 extends StatelessWidget {
@@ -24,7 +24,7 @@ class Home2 extends StatelessWidget {
                 children: [
                   Positioned(
                     left: 10,
-                    top: -5 ,
+                    top: MediaQuery.of(context).size.height * 0.0001,
                     child: SizedBox(
                       width: MediaQuery.of(context).size.width,
                       height: MediaQuery.of(context).size.height * 0.5,
@@ -59,11 +59,11 @@ class Home2 extends StatelessWidget {
                     ),
                   ),
                   Positioned(
-                    top: MediaQuery.of(context).size.height * 0.65,
-                    left: MediaQuery.of(context).size.width * 0.18,
+                    top: MediaQuery.of(context).size.height * 0.63,
+                    left: MediaQuery.of(context).size.width * 0.15,
                     child: Container(
-                      width: MediaQuery.of(context).size.width * 0.7,
-                      height: 150,
+                      width: MediaQuery.of(context).size.width * 0.9,
+                      height: MediaQuery.of(context).size.height * 0.15,
                       child: Text(
                         "RM : Still $days days before changing surveys",
                         style: GoogleFonts.lato(

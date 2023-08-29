@@ -1,6 +1,3 @@
-import 'package:shared_preferences/shared_preferences.dart';
-
-
 class Survey {
   final String question;
   String imagePath;
@@ -23,4 +20,3 @@ class Survey {
     return hasVoted;
   }
 }
-

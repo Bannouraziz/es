@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
-import 'package:estichara/AfterRegister/home2.dart';
-import 'package:estichara/statistics/statistics.dart';
-import 'package:estichara/statistics/statisticscard.dart';
+import 'package:Estichara/AfterRegister/home2.dart';
+import 'package:Estichara/statistics/statisticscard.dart';
+import 'package:google_nav_bar/google_nav_bar.dart';
 
 void main() {
   runApp(MyApp());
@@ -12,9 +11,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Modern Bottom Navigation',
+      title: 'Google navbar',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.orange,
       ),
       home: MainMenu(),
     );
@@ -27,99 +26,58 @@ class MainMenu extends StatefulWidget {
 }
 
 class _MainMenuState extends State<MainMenu> {
-  PersistentTabController? _controller;
+  int _currentIndex = 0;
 
-  @override
-  void initState() {
-    super.initState();
-    _controller = PersistentTabController(initialIndex: 0);
-  }
-
-  List<Widget> _buildScreens() {
-    return [
-      Home2(),
-      SecondScreen(),
-      SurveyListScreen(),
-    ];
-  }
-
-  List<PersistentBottomNavBarItem> _navBarsItems() {
-    return [
-      PersistentBottomNavBarItem(
-        icon: Icon(Icons.home),
-        title: "Home",
-        activeColorPrimary: Colors.orange,
-        inactiveColorPrimary: Colors.grey,
-      ),
-      PersistentBottomNavBarItem(
-        icon: Icon(Icons.search),
-        title: "Search",
-        activeColorPrimary: Colors.orange,
-        inactiveColorPrimary: Colors.grey,
-      ),
-      PersistentBottomNavBarItem(
-        icon: Icon(Icons.pie_chart),
-        title: "Statistics",
-        activeColorPrimary: Colors.orange,
-        inactiveColorPrimary: Colors.grey,
-      ),
-    ];
-  }
+  final List<Widget> _screens = [
+    Home2(),
+    SurveyListScreen(),
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: PersistentTabView(
-        context,
-        controller: _controller,
-        screens: _buildScreens(),
-        items: _navBarsItems(),
-        confineInSafeArea: true,
-        backgroundColor: Colors.white, // Default is Colors.white.
-        handleAndroidBackButtonPress: true, // Default is true.
-        resizeToAvoidBottomInset:
-            true, // This needs to be true if you want to move up the screen when keyboard appears. Default is true.
-        stateManagement: true, // Default is true.
-        hideNavigationBarWhenKeyboardShows:
-            true, // Recommended to set 'resizeToAvoidBottomInset' as true while using this argument. Default is true.
-        decoration: NavBarDecoration(
-          borderRadius: BorderRadius.circular(10.0),
-          colorBehindNavBar: Colors.white,
+      body: _screens[_currentIndex],
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
+        child: GNav(
+          rippleColor: Colors.white,
+          hoverColor: Colors.white,
+          haptic: true,
+          tabBorderRadius: 15,
+
+          tabBorder:
+              Border.all(color: Colors.white, width: 1), // tab button border
+          tabShadow: [
+            BoxShadow(color: Colors.white.withOpacity(0.5), blurRadius: 8)
+          ],
+          curve: Curves.easeOutExpo, 
+          duration: Duration(milliseconds: 500), 
+          gap: 14,
+          color: Colors.grey, 
+          activeColor: Colors.orange, 
+          iconSize: 35,
+          tabBackgroundColor: Colors.orange.withOpacity(0.1),
+          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+          selectedIndex: _currentIndex,
+          tabs: [
+            GButton(
+              icon: Icons.home,
+              text: 'Home',
+            ),
+            GButton(
+              icon: Icons.pie_chart,
+              text: 'Statistics',
+            ),
+          ],
+          onTabChange: (index) {
+            setState(() {
+              _currentIndex = index;
+            });
+          },
         ),
-        popAllScreensOnTapOfSelectedTab: true,
-        popActionScreens: PopActionScreensType.all,
-        itemAnimationProperties: ItemAnimationProperties(
-          // Navigation Bar's items animation properties.
-          duration: Duration(milliseconds: 200),
-          curve: Curves.ease,
-        ),
-        screenTransitionAnimation: ScreenTransitionAnimation(
-          // Screen transition animation on change of selected tab.
-          animateTabTransition: true,
-          curve: Curves.ease,
-          duration: Duration(milliseconds: 200),
-        ),
-        navBarStyle:
-            NavBarStyle.style1, // Choose the nav bar style with this property.
       ),
     );
   }
 }
 
-class FirstScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text('Home Screen'),
-    );
-  }
-}
 
-class SecondScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text('Search Screen'),
-    );
-  }
-}

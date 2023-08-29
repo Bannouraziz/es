@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
-import 'package:estichara/home.dart';
+import 'package:Estichara/home.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
-import 'package:estichara/registerscreens/email.dart';
+import 'package:Estichara/registerscreens/email.dart';
 import 'package:google_fonts/google_fonts.dart'; 
 
 

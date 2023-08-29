@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:estichara/statistics/statisticsservices.dart';
-import 'package:estichara/statistics/statistics.dart';
+import 'package:Estichara/statistics/statistics.dart';
 import '../surveys/surveyslist.dart';
 
 class SurveyListScreen extends StatelessWidget {
@@ -51,7 +50,7 @@ class SurveyListScreen extends StatelessWidget {
                   ),
                   trailing: Icon(
                     Icons.arrow_forward,
-                    color: Colors.blue,
+                    color: Colors.orange,
                   ),
                 ),
               ),

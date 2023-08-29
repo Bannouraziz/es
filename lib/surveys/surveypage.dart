@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:estichara/surveys/surveyslist.dart';
+import 'package:Estichara/surveys/surveyslist.dart';
 
 class SurveyPage extends StatefulWidget {
   @override

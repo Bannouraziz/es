@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:estichara/surveys/surveyslist.dart';
-import 'package:estichara/surveys/Survey.dart';
+import 'package:Estichara/surveys/surveyslist.dart';
+import 'package:Estichara/surveys/Survey.dart';
 
 class SurveyStatisticsService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;

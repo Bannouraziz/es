@@ -1,7 +1,7 @@
-name: estichara
+name: Estichara
 description: A new Flutter project.
 
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: 'none' 
 
 
 version: 1.0.0+1
@@ -38,18 +38,27 @@ dependencies:
   cupertino_icons: ^1.0.2
   connectivity_plus: ^4.0.2
   firebase_messaging: ^14.6.7
+  google_nav_bar: ^5.0.6
+  flutter_native_splash: ^2.3.2
+
+
+flutter_native_splash:
+  color: "#FF9800"
+  image: img/chart.jpg
+  android_disable_fullscreen: true
+  android_12: 
+    image: img/chart.jpg
+  android: true
+  ios: true
+
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
-
   flutter_lints: ^2.0.0
 
 
-# For information on the generic Dart part of this file, see the
-# following page: https://dart.dev/tools/pub/pubspec
 
-# The following section is specific to Flutter packages.
 flutter:
 
 

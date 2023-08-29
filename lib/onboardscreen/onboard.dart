@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding_slider/flutter_onboarding_slider.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:estichara/registerscreens/email.dart';
+import 'package:Estichara/registerscreens/email.dart';
+
 class OnBoardingScreen extends StatelessWidget {
   const OnBoardingScreen({Key? key}) : super(key: key);
 

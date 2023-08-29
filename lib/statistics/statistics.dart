@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-import 'package:estichara/statistics/statisticsservices.dart';
-import 'package:estichara/surveys/Survey.dart';
+import 'package:Estichara/statistics/statisticsservices.dart';
+import 'package:Estichara/surveys/Survey.dart';
 
 class SurveyStatisticsScreen extends StatefulWidget {
   final Survey survey;
