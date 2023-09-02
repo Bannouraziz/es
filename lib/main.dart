@@ -8,9 +8,12 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'registerscreens/email.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  await WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+
   final SharedPreferences prefs = await SharedPreferences.getInstance();
   final bool hasSeenOnboarding = prefs.getBool('hasSeenOnboarding') ?? false;
 
@@ -21,7 +24,7 @@ void main() async {
       await (Connectivity().checkConnectivity());
 
   if (connectivityResult != ConnectivityResult.none) {
-    await Firebase.initializeApp();
+    await MobileAds.instance.initialize();
     await SurveyList().fetchSurveysAndImageURLs();
     await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(false);
     FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;

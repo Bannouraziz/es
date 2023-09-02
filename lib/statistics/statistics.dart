@@ -31,7 +31,8 @@ class _SurveyStatisticsScreenState extends State<SurveyStatisticsScreen> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
-            return Center(child: Text('Error loading statistics'));
+            return Center(
+                child: Text('Error in getting statistics please try again'));
           } else if (snapshot.hasData) {
             Map<String, int> statistics = snapshot.data!;
             List<ChartData> chartData = [];
@@ -51,6 +52,21 @@ class _SurveyStatisticsScreenState extends State<SurveyStatisticsScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.03),
+                  Row(children: [
+                    Container(
+                      height: 0,
+                      margin: EdgeInsets.only(
+                          top: MediaQuery.of(context).size.height * 0.02),
+                      child: IconButton(
+                        icon: Icon(Icons.arrow_back),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    ),
+                  ]),
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.00),
                   Padding(
                     padding: EdgeInsets.only(top: topPadding),
                     child: Text(
