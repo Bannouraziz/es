@@ -5,6 +5,8 @@ import 'package:step_progress_indicator/step_progress_indicator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:Estichara/history/historyvotes.dart';
+import 'package:Estichara/admob/admobservices.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 class SurveyScreen extends StatelessWidget {
   const SurveyScreen({Key? key}) : super(key: key);
@@ -21,30 +23,25 @@ class SurveyScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.orange,
+      appBar: AppBar(
+        backgroundColor: Colors.orange,
+        elevation: 0,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+      ),
       body: Column(
         children: [
-          Row(children: [
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.10,
-            ),
-            Container(
-              height: 0,
-              margin: EdgeInsets.only(
-                  top: MediaQuery.of(context).size.height * 0.03),
-              child: IconButton(
-                icon: Icon(Icons.arrow_back),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ),
-          ]),
           Expanded(
             child: FutureBuilder<bool>(
               future: canVote(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return CircularProgressIndicator();
+                  return Center(child: CircularProgressIndicator());
                 } else if (snapshot.hasError) {
                   return Text('Error: ${snapshot.error}');
                 } else {
@@ -172,6 +169,7 @@ class SurveyDetailsPage extends StatefulWidget {
 class _SurveyDetailsPageState extends State<SurveyDetailsPage> {
   String selectedOption = "";
   bool showConfirmation = false;
+  InterstitialAd? _interstitialAd;
 
   late VotingHistoryManager _votingHistoryManager;
 
@@ -179,10 +177,33 @@ class _SurveyDetailsPageState extends State<SurveyDetailsPage> {
   void initState() {
     super.initState();
     _initializeVotingHistoryManager();
+    loadInterstitialAd();
   }
 
   Future<void> _initializeVotingHistoryManager() async {
     _votingHistoryManager = await VotingHistoryManager.create();
+  }
+
+  void loadInterstitialAd() {
+    InterstitialAd.load(
+      adUnitId: AdHelper.InterAdUnitId,
+      request: AdRequest(),
+      adLoadCallback: InterstitialAdLoadCallback(
+        onAdLoaded: (ad) {
+          print('Ad loaded.');
+
+          _interstitialAd = ad;
+        },
+        onAdFailedToLoad: (error) {
+          print('Ad failed to load: $error');
+        },
+      ),
+    );
+  }
+
+  void disposeInterstitialAd() {
+    _interstitialAd?.dispose();
+    _interstitialAd = null;
   }
 
   void selectOption(String option) {
@@ -202,6 +223,7 @@ class _SurveyDetailsPageState extends State<SurveyDetailsPage> {
         SurveyList.surveys[widget.surveyIndex].question, userId);
 
     if (!hasVoted) {
+      await Future.delayed(Duration(seconds: 1));
       await FirebaseFirestore.instance.collection('responses').add({
         'user_id': userId,
         'survey_id': surveyId,
@@ -209,6 +231,17 @@ class _SurveyDetailsPageState extends State<SurveyDetailsPage> {
       });
 
       await _votingHistoryManager.setVoted(surveyId, userId);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: Colors.green,
+          content: Center(child: Text('Thank you for voting !')),
+        ),
+      );
+      await Future.delayed(Duration(seconds: 1));
+
+      if (mounted && _interstitialAd != null) {
+        await _interstitialAd!.show();
+      }
 
       Navigator.pop(context);
     } else {
@@ -219,6 +252,12 @@ class _SurveyDetailsPageState extends State<SurveyDetailsPage> {
         ),
       );
     }
+  }
+
+  @override
+  void dispose() {
+    disposeInterstitialAd();
+    super.dispose();
   }
 
   @override
@@ -318,11 +357,17 @@ class _SurveyDetailsPageState extends State<SurveyDetailsPage> {
                         selectedOption,
                       );
 
-                      await Future.delayed(Duration(seconds: 2));
+                      // await Future.delayed(Duration(seconds: 2));
 
-                      setState(() {
-                        showConfirmation = false;
-                      });
+                      // if (mounted && _interstitialAd != null) {
+                      //   await _interstitialAd!.show();
+                      // }
+
+                      if (mounted) {
+                        setState(() {
+                          showConfirmation = false;
+                        });
+                      }
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
@@ -344,15 +389,6 @@ class _SurveyDetailsPageState extends State<SurveyDetailsPage> {
                     ),
                   ),
                 ),
-                if (showConfirmation)
-                  Container(
-                    padding: EdgeInsets.all(10),
-                    color: Colors.green,
-                    child: Text(
-                      'Vote submitted!',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
               ],
             ),
           ],
@@ -360,10 +396,4 @@ class _SurveyDetailsPageState extends State<SurveyDetailsPage> {
       ),
     );
   }
-}
-
-void main() {
-  runApp(MaterialApp(
-    home: SurveyScreen(),
-  ));
 }

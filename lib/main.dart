@@ -7,13 +7,15 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'registerscreens/email.dart';
+import 'registerscreens/phone.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 void main() async {
   await WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-
+  await Permission.notification.request();
+  await MobileAds.instance.initialize();
   final SharedPreferences prefs = await SharedPreferences.getInstance();
   final bool hasSeenOnboarding = prefs.getBool('hasSeenOnboarding') ?? false;
 
@@ -24,7 +26,6 @@ void main() async {
       await (Connectivity().checkConnectivity());
 
   if (connectivityResult != ConnectivityResult.none) {
-    await MobileAds.instance.initialize();
     await SurveyList().fetchSurveysAndImageURLs();
     await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(false);
     FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
@@ -34,9 +35,7 @@ void main() async {
 
 class MyApp extends StatefulWidget {
   final bool hasSeenOnboarding;
-
   MyApp({required this.hasSeenOnboarding});
-
   @override
   _MyAppState createState() => _MyAppState();
 }
@@ -47,9 +46,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    if (!widget.hasSeenOnboarding) {
-      _subscribeToTopic();
-    }
+    _subscribeToTopic();
   }
 
   Future<void> _subscribeToTopic() async {

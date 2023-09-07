@@ -46,7 +46,7 @@ class _MainMenuState extends State<MainMenu> {
           tabBorderRadius: 15,
 
           tabBorder:
-              Border.all(color: Colors.white, width: 1), // tab button border
+              Border.all(color: Colors.white, width: 1), 
           tabShadow: [
             BoxShadow(color: Colors.white.withOpacity(0.5), blurRadius: 8)
           ],

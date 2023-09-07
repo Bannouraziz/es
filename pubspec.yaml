@@ -41,7 +41,8 @@ dependencies:
   google_nav_bar: ^5.0.6
   flutter_native_splash: ^2.3.2
   google_mobile_ads: ^3.0.0
-
+  web_socket_channel: ^2.4.0
+  permission_handler: ^10.4.3
 
 flutter_native_splash:
   color: "#FF9800"
@@ -65,7 +66,6 @@ flutter:
 
   uses-material-design: true
 
-  # To add assets to your application, add an assets section, like this:
   assets:
     - img/
   #   - images/a_dot_ham.jpeg

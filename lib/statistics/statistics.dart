@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:Estichara/statistics/statisticsservices.dart';
 import 'package:Estichara/surveys/Survey.dart';
@@ -25,6 +26,17 @@ class _SurveyStatisticsScreenState extends State<SurveyStatisticsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.orange,
+      appBar: AppBar(
+        backgroundColor: Colors.orange,
+        elevation: 0,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+      ),
       body: FutureBuilder<Map<String, int>>(
         future: _statisticsFuture,
         builder: (context, snapshot) {
@@ -44,36 +56,19 @@ class _SurveyStatisticsScreenState extends State<SurveyStatisticsScreen> {
               double percentage = (count / totalResponses) * 100;
               chartData.add(ChartData(option, percentage));
             });
-
-            double screenHeight = MediaQuery.of(context).size.height;
-            double topPadding = screenHeight * 0.08;
             return Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(10.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.03),
-                  Row(children: [
-                    Container(
-                      height: 0,
-                      margin: EdgeInsets.only(
-                          top: MediaQuery.of(context).size.height * 0.02),
-                      child: IconButton(
-                        icon: Icon(Icons.arrow_back),
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                      ),
-                    ),
-                  ]),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.00),
-                  Padding(
-                    padding: EdgeInsets.only(top: topPadding),
-                    child: Text(
-                      'Survey: ${widget.survey.question}',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
+                  Text(
+                    'Survey: ${widget.survey.question}',
+                    style: GoogleFonts.poppins(
+                      textStyle: TextStyle(
+                        color: Colors.black,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w700,
                       ),
                     ),
                   ),

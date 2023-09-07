@@ -5,14 +5,7 @@ import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'code.dart';
 
-class MailApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: MailScreen(),
-    );
-  }
-}
+
 
 class MailScreen extends StatefulWidget {
   @override
@@ -24,7 +17,7 @@ class _MailScreenState extends State<MailScreen> {
   String verificationId = '';
   String _errorMessage = '';
   bool _isSendingCode = false;
-
+   
   Future<void> _sendCode() async {
     if (_isSendingCode) {
       return;
