@@ -12,7 +12,7 @@ class Home2 extends StatefulWidget {
 
 class _Home2State extends State<Home2> {
   bool _canVote =
-      true; // Initialize as true, or fetch initial value from your Firestore
+      true; 
 
   Future<void> checkCanVote() async {
     DocumentSnapshot canVoteDoc = await FirebaseFirestore.instance
@@ -28,7 +28,6 @@ class _Home2State extends State<Home2> {
   @override
   void initState() {
     super.initState();
-    // Fetch the canVote status when the widget is first created
     checkCanVote();
   }
 
@@ -102,24 +101,7 @@ class _Home2State extends State<Home2> {
                       ),
                     ),
                   ),
-                  // Positioned(
-                  //   top: MediaQuery.of(context).size.height * 0.63,
-                  //   left: MediaQuery.of(context).size.width * 0.15,
-                  //   child: Container(
-                  //     width: MediaQuery.of(context).size.width * 0.9,
-                  //     height: MediaQuery.of(context).size.height * 0.15,
-                  //     child: Text(
-                  //       "RM : Still $days days before changing surveys",
-                  //       style: GoogleFonts.lato(
-                  //         textStyle: TextStyle(
-                  //           color: Colors.red,
-                  //           fontSize: 16,
-                  //           fontWeight: FontWeight.bold,
-                  //         ),
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
+                
                 ],
               ),
             ),
