@@ -357,11 +357,6 @@ class _SurveyDetailsPageState extends State<SurveyDetailsPage> {
                         selectedOption,
                       );
 
-                      // await Future.delayed(Duration(seconds: 2));
-
-                      // if (mounted && _interstitialAd != null) {
-                      //   await _interstitialAd!.show();
-                      // }
 
                       if (mounted) {
                         setState(() {
