@@ -84,7 +84,8 @@ class _SurveyListScreenState extends State<SurveyListScreen> {
                       SnackBar(
                         backgroundColor: Colors.orange,
                         content: Center(
-                          child: Text('Statistics are not available yet!'),
+                          child: Text(
+                              "You'll be notified when the stats are ready!"),
                         ),
                       ),
                     );

@@ -11,9 +11,7 @@ class Home2 extends StatefulWidget {
 }
 
 class _Home2State extends State<Home2> {
-  bool _canVote =
-      true; // Initialize as true, or fetch initial value from your Firestore
-
+  bool _canVote = true;
   Future<void> checkCanVote() async {
     DocumentSnapshot canVoteDoc = await FirebaseFirestore.instance
         .collection('can_survey')
@@ -28,14 +26,11 @@ class _Home2State extends State<Home2> {
   @override
   void initState() {
     super.initState();
-    // Fetch the canVote status when the widget is first created
     checkCanVote();
   }
 
   @override
   Widget build(BuildContext context) {
-    int days = 0;
-
     return Scaffold(
       backgroundColor: Colors.white,
       body: Center(
@@ -62,7 +57,7 @@ class _Home2State extends State<Home2> {
                     top: MediaQuery.of(context).size.height * 0.60,
                     left: MediaQuery.of(context).size.width * 0.25,
                     child: SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.45,
+                      width: MediaQuery.of(context).size.width * 0.50,
                       height: 50,
                       child: ElevatedButton(
                         onPressed: () {
@@ -76,9 +71,11 @@ class _Home2State extends State<Home2> {
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
-                                backgroundColor: Colors.grey,
-                                content: Text(
-                                    'Voting has ended , you can check statistics '),
+                                backgroundColor: Colors.red,
+                                content: Center(
+                                  child: Text(
+                                      'Voting has ended , you can check statistics '),
+                                ),
                               ),
                             );
                           }
@@ -90,7 +87,7 @@ class _Home2State extends State<Home2> {
                           ),
                         ),
                         child: Text(
-                          _canVote ? 'Participate' : 'Voting Ended ',
+                          _canVote ? 'Participate' : 'Vote ended',
                           style: GoogleFonts.poppins(
                             textStyle: TextStyle(
                               color: Colors.white,
@@ -102,24 +99,6 @@ class _Home2State extends State<Home2> {
                       ),
                     ),
                   ),
-                  // Positioned(
-                  //   top: MediaQuery.of(context).size.height * 0.63,
-                  //   left: MediaQuery.of(context).size.width * 0.15,
-                  //   child: Container(
-                  //     width: MediaQuery.of(context).size.width * 0.9,
-                  //     height: MediaQuery.of(context).size.height * 0.15,
-                  //     child: Text(
-                  //       "RM : Still $days days before changing surveys",
-                  //       style: GoogleFonts.lato(
-                  //         textStyle: TextStyle(
-                  //           color: Colors.red,
-                  //           fontSize: 16,
-                  //           fontWeight: FontWeight.bold,
-                  //         ),
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
                 ],
               ),
             ),

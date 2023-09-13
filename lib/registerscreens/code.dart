@@ -3,9 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:Estichara/home.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
-import 'package:internet_connection_checker/internet_connection_checker.dart';
-import 'package:Estichara/registerscreens/phone.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'dart:async';
 
 class CodeScreen extends StatefulWidget {
   final String phoneNumber;
@@ -20,6 +19,8 @@ class CodeScreen extends StatefulWidget {
 class _CodeScreenState extends State<CodeScreen> {
   bool _showErrorMessage = false;
   bool _isConfirmingCode = false;
+  bool _showResendButton =
+      false; // New variable to control the button visibility
 
   Future<void> _resendCode() async {
     final PhoneVerificationCompleted verificationCompleted =
@@ -88,6 +89,17 @@ class _CodeScreenState extends State<CodeScreen> {
         });
       }
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    Future.delayed(Duration(seconds: 8), () {
+      setState(() {
+        _showResendButton = true;
+      });
+    });
   }
 
   @override
@@ -203,21 +215,25 @@ class _CodeScreenState extends State<CodeScreen> {
                           )
                         : SizedBox.shrink(),
                     SizedBox(height: 16),
-                    ElevatedButton(
-                      onPressed: () async {
-                        await _resendCode();
-                      },
-                      style: ElevatedButton.styleFrom(
-                          primary: Colors.orange,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
+                    Visibility(
+                      visible:
+                          _showResendButton, // Show the button if _showResendButton is true
+                      child: ElevatedButton(
+                        onPressed: () async {
+                          await _resendCode();
+                        },
+                        style: ElevatedButton.styleFrom(
+                            primary: Colors.orange,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            fixedSize: Size(200, 60)),
+                        child: Text(
+                          'Resend code',
+                          style: GoogleFonts.poppins(
+                            textStyle:
+                                TextStyle(color: Colors.white, fontSize: 20),
                           ),
-                          fixedSize: Size(200, 60)),
-                      child: Text(
-                        'Resend code',
-                        style: GoogleFonts.poppins(
-                          textStyle:
-                              TextStyle(color: Colors.white, fontSize: 20),
                         ),
                       ),
                     ),
@@ -225,7 +241,6 @@ class _CodeScreenState extends State<CodeScreen> {
                 ),
               ),
             ),
-            
             if (_isConfirmingCode)
               Container(
                 color: Colors.black.withOpacity(0.5),

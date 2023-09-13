@@ -42,7 +42,7 @@ class OnBoardingScreen extends StatelessWidget {
         ),
       ),
       trailing: Text(
-        'Register',
+        'Participate',
         style: TextStyle(
           fontSize: 16,
           color: Colors.orange,
@@ -73,7 +73,7 @@ class OnBoardingScreen extends StatelessWidget {
           color: Colors.orange,
         ),
         Icon(
-          Icons.how_to_vote,
+          Icons.pie_chart,
           size: 120,
           color: Colors.orange,
         ),
@@ -124,13 +124,13 @@ class OnBoardingScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text(
-                'Have Your Say',
+                'User-friendly charted statistics.',
                 textAlign: TextAlign.center,
                 style: titleStyle,
               ),
               SizedBox(height: 20),
               Text(
-                'Make a positive impact by voicing your opinions on global matters..',
+                'Every weekend, you can access authentic survey statistics.',
                 textAlign: TextAlign.center,
                 style: descriptionStyle,
               ),

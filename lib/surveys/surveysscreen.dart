@@ -157,6 +157,8 @@ class SurveyScreen extends StatelessWidget {
   }
 }
 
+int AdNumber = 1;
+
 class SurveyDetailsPage extends StatefulWidget {
   final int surveyIndex;
 
@@ -170,6 +172,7 @@ class _SurveyDetailsPageState extends State<SurveyDetailsPage> {
   String selectedOption = "";
   bool showConfirmation = false;
   InterstitialAd? _interstitialAd;
+  bool adDisplayed = false;
 
   late VotingHistoryManager _votingHistoryManager;
 
@@ -191,7 +194,6 @@ class _SurveyDetailsPageState extends State<SurveyDetailsPage> {
       adLoadCallback: InterstitialAdLoadCallback(
         onAdLoaded: (ad) {
           print('Ad loaded.');
-
           _interstitialAd = ad;
         },
         onAdFailedToLoad: (error) {
@@ -237,11 +239,12 @@ class _SurveyDetailsPageState extends State<SurveyDetailsPage> {
           content: Center(child: Text('Thank you for voting !')),
         ),
       );
-      await Future.delayed(Duration(seconds: 1));
 
-      if (mounted && _interstitialAd != null) {
+      if ((mounted && _interstitialAd != null) &&
+          (AdNumber == 1 || AdNumber == 10)) {
         await _interstitialAd!.show();
       }
+      AdNumber++;
 
       Navigator.pop(context);
     } else {
@@ -300,11 +303,25 @@ class _SurveyDetailsPageState extends State<SurveyDetailsPage> {
               margin: EdgeInsets.only(left: 0),
               child: Align(
                 alignment: Alignment.center,
-                child: Image.network(
-                  SurveyList.surveys[widget.surveyIndex].imageUrl,
-                  width: 300,
+                child: FadeInImage(
+                  placeholder: AssetImage('img/6.png'),
+                  image: NetworkImage(
+                      SurveyList.surveys[widget.surveyIndex].imageUrl),
+                  width: 200,
                   height: 200,
                   fit: BoxFit.cover,
+                  imageErrorBuilder: (context, error, stackTrace) {
+                    return Center(
+                      child: Text(
+                        'Image could not loaded',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.red,
+                        ),
+                      ),
+                    );
+                  },
                 ),
               ),
             ),
@@ -322,7 +339,7 @@ class _SurveyDetailsPageState extends State<SurveyDetailsPage> {
               GestureDetector(
                 onTap: () => selectOption(option),
                 child: Container(
-                  padding: EdgeInsets.all(5),
+                  padding: EdgeInsets.all(9),
                   decoration: BoxDecoration(
                     color: selectedOption == option
                         ? Colors.orange
@@ -356,12 +373,6 @@ class _SurveyDetailsPageState extends State<SurveyDetailsPage> {
                         SurveyList.surveys[widget.surveyIndex].question,
                         selectedOption,
                       );
-
-                      // await Future.delayed(Duration(seconds: 2));
-
-                      // if (mounted && _interstitialAd != null) {
-                      //   await _interstitialAd!.show();
-                      // }
 
                       if (mounted) {
                         setState(() {
