@@ -216,23 +216,28 @@ class _CodeScreenState extends State<CodeScreen> {
                         : SizedBox.shrink(),
                     SizedBox(height: 16),
                     Visibility(
-                      visible:
-                          _showResendButton, // Show the button if _showResendButton is true
-                      child: ElevatedButton(
-                        onPressed: () async {
-                          await _resendCode();
-                        },
-                        style: ElevatedButton.styleFrom(
-                            primary: Colors.orange,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
+                      visible: _showResendButton,
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: ElevatedButton(
+                          onPressed: () async {
+                            await _resendCode();
+                          },
+                          style: ElevatedButton.styleFrom(
+                              primary: Colors.orange,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              fixedSize: Size(200, 60)),
+                          child: FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: Text(
+                              'Resend code',
+                              style: GoogleFonts.poppins(
+                                textStyle: TextStyle(
+                                    color: Colors.white, fontSize: 20),
+                              ),
                             ),
-                            fixedSize: Size(200, 60)),
-                        child: Text(
-                          'Resend code',
-                          style: GoogleFonts.poppins(
-                            textStyle:
-                                TextStyle(color: Colors.white, fontSize: 20),
                           ),
                         ),
                       ),

@@ -26,7 +26,7 @@ class _SurveyStatisticsScreenState extends State<SurveyStatisticsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.orange,
+      backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.orange,
         elevation: 0,
@@ -44,7 +44,14 @@ class _SurveyStatisticsScreenState extends State<SurveyStatisticsScreen> {
             return Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
             return Center(
-                child: Text('Error in getting statistics please try again'));
+              child: Text(
+                'Error in getting statistics. Please try again later.',
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.red,
+                ),
+              ),
+            );
           } else if (snapshot.hasData) {
             Map<String, int> statistics = snapshot.data!;
             List<ChartData> chartData = [];
@@ -57,22 +64,21 @@ class _SurveyStatisticsScreenState extends State<SurveyStatisticsScreen> {
               chartData.add(ChartData(option, percentage));
             });
             return Padding(
-              padding: const EdgeInsets.all(10.0),
+              padding: const EdgeInsets.all(16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.00),
                   Text(
                     'Survey: ${widget.survey.question}',
                     style: GoogleFonts.poppins(
                       textStyle: TextStyle(
                         color: Colors.black,
-                        fontSize: 20,
-                        fontWeight: FontWeight.w700,
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),
-                  SizedBox(height: 10),
+                  SizedBox(height: 20),
                   Expanded(
                     child: Container(
                       decoration: BoxDecoration(
@@ -88,9 +94,11 @@ class _SurveyStatisticsScreenState extends State<SurveyStatisticsScreen> {
                         ],
                       ),
                       child: Padding(
-                        padding: const EdgeInsets.only(top: 30),
+                        padding: const EdgeInsets.all(16),
                         child: SfCartesianChart(
-                          primaryXAxis: CategoryAxis(),
+                          primaryXAxis: CategoryAxis(
+                            labelRotation: 45,
+                          ),
                           primaryYAxis: NumericAxis(
                             minimum: 0,
                             maximum: 100,
@@ -101,8 +109,7 @@ class _SurveyStatisticsScreenState extends State<SurveyStatisticsScreen> {
                           series: <ColumnSeries<ChartData, String>>[
                             ColumnSeries<ChartData, String>(
                               isTrackVisible: true,
-                              trackColor:
-                                  const Color.fromRGBO(198, 201, 207, 1),
+                              trackColor: Colors.grey.withOpacity(0.5),
                               borderRadius: BorderRadius.circular(15),
                               dataSource: chartData,
                               xValueMapper: (ChartData data, _) => data.option,
@@ -110,7 +117,7 @@ class _SurveyStatisticsScreenState extends State<SurveyStatisticsScreen> {
                                   data.percentage.toStringAsFixed(2)),
                               dataLabelSettings:
                                   DataLabelSettings(isVisible: true),
-                              color: Color.fromRGBO(255, 165, 0, 1),
+                              color: Colors.orange,
                             ),
                           ],
                         ),
@@ -121,7 +128,15 @@ class _SurveyStatisticsScreenState extends State<SurveyStatisticsScreen> {
               ),
             );
           } else {
-            return Center(child: Text('No statistics available'));
+            return Center(
+              child: Text(
+                'No statistics available.',
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.red,
+                ),
+              ),
+            );
           }
         },
       ),

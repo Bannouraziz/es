@@ -4,7 +4,7 @@ description: A new Flutter project.
 publish_to: 'none' 
 
 
-version: 1.0.1+2
+version: 1.0.0+3
 
 environment:
   sdk: '>=3.0.6 <4.0.0'
@@ -44,6 +44,7 @@ dependencies:
   google_mobile_ads: ^3.0.0
   web_socket_channel: ^2.4.0
   permission_handler: ^10.4.3
+  fl_chart: ^0.63.0
 
 
 flutter_native_splash:

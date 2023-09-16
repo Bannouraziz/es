@@ -5,8 +5,6 @@ import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'code.dart';
 
-
-
 class MailScreen extends StatefulWidget {
   @override
   _MailScreenState createState() => _MailScreenState();
@@ -17,7 +15,7 @@ class _MailScreenState extends State<MailScreen> {
   String verificationId = '';
   String _errorMessage = '';
   bool _isSendingCode = false;
-   
+
   Future<void> _sendCode() async {
     if (_isSendingCode) {
       return;
@@ -181,11 +179,14 @@ class _MailScreenState extends State<MailScreen> {
                           ),
                           fixedSize: Size(200, 60),
                         ),
-                        child: Text(
-                          'Send Code',
-                          style: GoogleFonts.poppins(
-                            textStyle:
-                                TextStyle(color: Colors.white, fontSize: 20),
+                        child: FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Text(
+                            'Send Code',
+                            style: GoogleFonts.poppins(
+                              textStyle:
+                                  TextStyle(color: Colors.white, fontSize: 20),
+                            ),
                           ),
                         ),
                       ),

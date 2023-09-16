@@ -5,6 +5,8 @@ import '../surveys/surveyslist.dart';
 import 'package:Estichara/admob/admobservices.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
+int AdNumber = 1;
+
 class SurveyListScreen extends StatefulWidget {
   @override
   State<SurveyListScreen> createState() => _SurveyListScreenState();
@@ -64,7 +66,11 @@ class _SurveyListScreenState extends State<SurveyListScreen> {
               return GestureDetector(
                 onTap: () async {
                   if (canViewStatistics) {
-                    await _interstitialAd!.show();
+                    if ((_interstitialAd != null) &&
+                        (AdNumber == 1 || AdNumber == 10 || AdNumber == 5)) {
+                      await _interstitialAd!.show();
+                    }
+                    AdNumber++;
                     _interstitialAd!.fullScreenContentCallback =
                         FullScreenContentCallback(
                       onAdDismissedFullScreenContent: (ad) {

@@ -241,7 +241,7 @@ class _SurveyDetailsPageState extends State<SurveyDetailsPage> {
       );
 
       if ((mounted && _interstitialAd != null) &&
-          (AdNumber == 1 || AdNumber == 10)) {
+          (AdNumber == 1 || AdNumber == 5)) {
         await _interstitialAd!.show();
       }
       AdNumber++;

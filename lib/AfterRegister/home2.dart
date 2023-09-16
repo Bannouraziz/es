@@ -12,6 +12,7 @@ class Home2 extends StatefulWidget {
 
 class _Home2State extends State<Home2> {
   bool _canVote = true;
+
   Future<void> checkCanVote() async {
     DocumentSnapshot canVoteDoc = await FirebaseFirestore.instance
         .collection('can_survey')
