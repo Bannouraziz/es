@@ -3,10 +3,6 @@ import 'package:Estichara/AfterRegister/home2.dart';
 import 'package:Estichara/statistics/statisticscard.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
-void main() {
-  runApp(MyApp());
-}
-
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
