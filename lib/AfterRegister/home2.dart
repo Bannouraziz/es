@@ -109,10 +109,5 @@ class _Home2State extends State<Home2> {
       ),
     );
   }
-}
 
-void main() {
-  runApp(MaterialApp(
-    home: Home2(),
-  ));
 }
