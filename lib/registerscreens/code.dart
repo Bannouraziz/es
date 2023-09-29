@@ -6,6 +6,8 @@ import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'dart:async';
 
+import 'package:shared_preferences/shared_preferences.dart';
+
 class CodeScreen extends StatefulWidget {
   final String phoneNumber;
   final String verificationId;
@@ -20,7 +22,7 @@ class _CodeScreenState extends State<CodeScreen> {
   bool _showErrorMessage = false;
   bool _isConfirmingCode = false;
   bool _showResendButton =
-      false; // New variable to control the button visibility
+      false; 
 
   Future<void> _resendCode() async {
     final PhoneVerificationCompleted verificationCompleted =
@@ -79,6 +81,8 @@ class _CodeScreenState extends State<CodeScreen> {
           MaterialPageRoute(builder: (context) => MainMenu()),
           (route) => false,
         );
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setBool('isAuthenticated', true);
       }
     } catch (e) {
       print('Error signing in: $e');

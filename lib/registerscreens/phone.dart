@@ -112,7 +112,7 @@ class _MailScreenState extends State<MailScreen> {
                   children: [
                     SizedBox(height: MediaQuery.of(context).size.height * 0.06),
                     Text(
-                      'Join Us',
+                      'Enter your phone number',
                       style: GoogleFonts.poppins(
                         textStyle: TextStyle(
                           color: Colors.black,
@@ -122,17 +122,7 @@ class _MailScreenState extends State<MailScreen> {
                       ),
                     ),
                     SizedBox(height: 5),
-                    Text(
-                      'Enter your phone number',
-                      style: GoogleFonts.poppins(
-                        textStyle: TextStyle(
-                          color: Colors.black,
-                          fontSize: 20,
-                          fontWeight: FontWeight.w400,
-                          letterSpacing: 0.25,
-                        ),
-                      ),
-                    ),
+              
                     SizedBox(height: 24),
                     SizedBox(
                       width: double.infinity,

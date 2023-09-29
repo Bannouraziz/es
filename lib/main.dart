@@ -1,3 +1,5 @@
+import 'package:Estichara/AfterRegister/home2.dart';
+import 'package:Estichara/home.dart';
 import 'package:Estichara/surveys/surveyslist.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -15,27 +17,32 @@ void main() async {
   await WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await Permission.notification.request();
-  await MobileAds.instance.initialize();
+  SurveyList().fetchSurveysAndImageURLs();
   final SharedPreferences prefs = await SharedPreferences.getInstance();
   final bool hasSeenOnboarding = prefs.getBool('hasSeenOnboarding') ?? false;
-
+  final bool isAuthenticated = prefs.getBool('isAuthenticated') ?? false;
   if (!hasSeenOnboarding) {
-    await prefs.setBool('hasSeenOnboarding', true);
+    prefs.setBool('hasSeenOnboarding', true);
   }
   final ConnectivityResult connectivityResult =
       await (Connectivity().checkConnectivity());
 
   if (connectivityResult != ConnectivityResult.none) {
     await SurveyList().fetchSurveysAndImageURLs();
-    await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(false);
+    MobileAds.instance.initialize();
+    FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(false);
     FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
   }
-  runApp(MyApp(hasSeenOnboarding: hasSeenOnboarding));
+  runApp(MyApp(
+    hasSeenOnboarding: hasSeenOnboarding,
+    isAuthenticated: isAuthenticated,
+  ));
 }
 
 class MyApp extends StatefulWidget {
   final bool hasSeenOnboarding;
-  MyApp({required this.hasSeenOnboarding});
+  final bool isAuthenticated;
+  MyApp({required this.hasSeenOnboarding, required this.isAuthenticated});
   @override
   _MyAppState createState() => _MyAppState();
 }
@@ -61,14 +68,25 @@ class _MyAppState extends State<MyApp> {
       splitScreenMode: true,
       builder: (context, child) {
         if (widget.hasSeenOnboarding) {
-          return MaterialApp(
-            debugShowCheckedModeBanner: false,
-            title: 'Estichara',
-            theme: ThemeData(
-              primarySwatch: Colors.orange,
-            ),
-            home: MailScreen(),
-          );
+          if (widget.isAuthenticated) {
+            return MaterialApp(
+              debugShowCheckedModeBanner: false,
+              title: 'Estichara',
+              theme: ThemeData(
+                primarySwatch: Colors.orange,
+              ),
+              home: MainMenu(),
+            );
+          } else {
+            return MaterialApp(
+              debugShowCheckedModeBanner: false,
+              title: 'Estichara',
+              theme: ThemeData(
+                primarySwatch: Colors.orange,
+              ),
+              home: MailScreen(),
+            );
+          }
         } else {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
