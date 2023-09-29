@@ -4,7 +4,18 @@ import 'package:Estichara/statistics/statisticscard.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
 
-
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Google navbar',
+      theme: ThemeData(
+        primarySwatch: Colors.orange,
+      ),
+      home: MainMenu(),
+    );
+  }
+}
 
 class MainMenu extends StatefulWidget {
   @override

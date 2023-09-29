@@ -42,7 +42,7 @@ class _MailScreenState extends State<MailScreen> {
           (String verificationId, int? resendToken) async {
         setState(() {
           this.verificationId = verificationId;
-          _isSendingCode = false; // Hide the loading screen
+          _isSendingCode = false;
         });
 
         Navigator.push(
