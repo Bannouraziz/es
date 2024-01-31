@@ -1,16 +1,25 @@
-# estichara
+# Estichara
 
-A new Flutter project.
+Estichara is a Flutter application that enables users to participate in weekly surveys and view statistics based on the survey results.
 
-## Getting Started
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
+## Features
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- Weekly Surveys: Users can participate in different surveys that are updated weekly.
+- Voting System: Users can vote on various options provided in each survey.
+- Statistics: Users can view statistics and analysis based on the survey results.
+- Notifications: Users receive notifications when new surveys are available or when survey results are published.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+
+## Installation 
+ - You can install this App only in Android Devices .
+ - This App is available in Google Play Store and there is the link  :
+   "https://play.google.com/store/apps/details?id=com.aziz.estichara"
+
+ ## Usage
+1. Sign up with your phone number .
+2. Browse the available surveys and choose one to participate in.
+3. Vote on the options provided in the survey.
+4. View statistics and analysis of survey results in the app.
+5. Receive notifications for new surveys and survey results.
